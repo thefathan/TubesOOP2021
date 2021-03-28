@@ -1,8 +1,8 @@
-package Tubes;
+// package Tubes;
 
 import java.util.*;
 
-public class Experiment {
+public class DeckExperiment {
 	public static void main(String[] args) {
 		Deck cards= (Deck) new Deck();
 		cards.initialize();

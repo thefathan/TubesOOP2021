@@ -1,3 +1,4 @@
+package Card;
 // Class Card
 // Berisi tentang seluk beluk kartu HIJI 
 // diperuntukkan sebagai wadah bagi kartu Angka, Reverse, Block (Kartu yang memiliki warna)
@@ -31,4 +32,5 @@ public abstract class Card {
     }
 
     public abstract void sayHi();
+    public abstract void infoKartu();
 }

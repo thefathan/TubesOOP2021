@@ -8,7 +8,8 @@ public class CardGenerator {
 
         CardRandomer cardrandom = new CardRandomer();
         cardrandom.addcard();
-        cardrandom.printCard();
+        // cardrandom.printCard();
+        cardrandom.printShuffledCard();
     }
     
     

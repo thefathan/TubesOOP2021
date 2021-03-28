@@ -2,35 +2,33 @@
 // Berisi tentang seluk beluk kartu HIJI 
 // diperuntukkan sebagai wadah bagi kartu Angka, Reverse, Block (Kartu yang memiliki warna)
 
-public class Card {
-    private int angka;
-    private String warna;
-    private String jenis;
-    private String skill;
+public abstract class Card {
+    private String jenisKartu;
+    private String warnaKartu;
+    private String skillKartu;
+    private int angkaKartu;
 
-    public Card(int angka, String warna, String jenis, String skill) {
-        this.angka = angka;
-        this.warna = warna;
-        this.jenis = jenis;
-        this.skill = skill;
+    // Constructor
+    public Card(String jenisKartu, String warnaKartu, String skillKartu, int angkaKartu) {
+        this.jenisKartu = jenisKartu;
+        this.warnaKartu = warnaKartu;
+        this.skillKartu = skillKartu;
+        this.angkaKartu = angkaKartu;
     }
 
-    // getter
-    public int getAngka() {
-        return this.angka;
+    // Getter
+    public String getJenisKartu() {
+        return this.jenisKartu;
+    }
+    public String getWarnaKaru() {
+        return this.warnaKartu;
+    }
+    public String getSkillKartu() {
+        return this.skillKartu;
+    }
+    public int getAngkaKartu() {
+        return this.angkaKartu;
     }
 
-    public String getWarna() {
-        return this.warna;
-    }
-
-    public String getJenis() {
-        return this.jenis;
-    }
-
-    public String getSkill() {
-        return this.skill;
-    }
-
-    // setter
+    public abstract void sayHi();
 }

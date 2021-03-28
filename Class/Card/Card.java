@@ -21,7 +21,7 @@ public abstract class Card {
     public String getJenisKartu() {
         return this.jenisKartu;
     }
-    public String getWarnaKaru() {
+    public String getWarnaKartu() {
         return this.warnaKartu;
     }
     public String getSkillKartu() {

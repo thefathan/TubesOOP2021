@@ -42,4 +42,8 @@ public class CardBiasa extends Card {
             System.out.println("Nine " +this.getWarnaKaru());
         }
     }
+
+    public void cardAbility() {
+        System.out.println("Hanya Kartu Biasa, link warna dan angka untuk turn selanjutnya");
+    }
 }

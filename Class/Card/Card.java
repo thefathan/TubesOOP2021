@@ -31,6 +31,9 @@ public abstract class Card {
         return this.angkaKartu;
     }
 
+    // abstract method
     public abstract void sayHi();
     public abstract void infoKartu();
+
+    public abstract void cardAbility();
 }

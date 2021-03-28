@@ -10,7 +10,7 @@ public class CardGenerator {
         String warna, jenis, skill;
         Scanner scan = new Scanner(System.in);
         System.out.print("Masukkan jenis card (CardBiasa, ActionCard, SkillCard): ");
-        jenis = scan.next();
+        jenis = scan.nextLine();
         // System.out.println(jenis);
 
         if (jenis.equals("CardBiasa")) {
@@ -19,33 +19,36 @@ public class CardGenerator {
             angka = scan.nextInt();
             skill = "NULL";
             System.out.print("Masukkan warna pada kartu biasa (Red, Green, Blue, Yellow): ");
-            warna = scan.next();
+            warna = scan.nextLine();
             CardBiasa kartu = new CardBiasa(jenis, warna, skill, angka);
             System.out.print("Class " +jenis+ " berhasil diinisialisasi, \nKartu yg dihasilkan: ");
             kartu.infoKartu();
+            kartu.cardAbility();
         }
 
         else if (jenis.equals("ActionCard")) {
             // System.out.println("1");
             System.out.print("Masukkan skill yg dimiliki action card (Wildcard, Draw +4): ");
-            skill = scan.next();
+            skill = scan.nextLine();
             warna = "NULL";
             angka = -99;
             ActionCard kartu = new ActionCard(jenis, warna, skill, angka);
             System.out.print("Class " +jenis+ " berhasil diinisialisasi, \nKartu yg dihasilkan: ");
             kartu.infoKartu();
+            kartu.cardAbility();
         }
 
         else if (jenis.equals("SkillCard")) {
             // System.out.println("1");
             System.out.print("Masukkan skill yg dimiliki skill card (Reverse, Block, Draw +2): ");
-            skill = scan.next();
+            skill = scan.nextLine();
             System.out.print("Masukkan warna pada kartu biasa (Red, Green, Blue, Yellow): ");
-            warna = scan.next();
+            warna = scan.nextLine();
             angka = -99;
             SkillCard kartu = new SkillCard(jenis, warna, skill, angka);
             System.out.print("Class " +jenis+ " berhasil diinisialisasi, \nKartu yg dihasilkan: ");
             kartu.infoKartu();
+            kartu.cardAbility();
         }
 
         else {

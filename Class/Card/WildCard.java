@@ -17,7 +17,7 @@ public class WildCard extends Card {
             System.out.println("Ability Wildcard, tentukan warna untuk turn selanjutnya");
         }
         else if (this.getSkillKartu().equals("Draw +4")) {
-            System.out.println("Ability Draw +4, peamin turn selanjutnya wajib menambah +4 kartu dan pilihlah warna untuk turn setelah pemain ambil kartu");
+            System.out.println("Ability Draw +4, pemain turn selanjutnya wajib menambah +4 kartu dan pilihlah warna untuk turn setelah pemain ambil kartu");
         }
     }
 }

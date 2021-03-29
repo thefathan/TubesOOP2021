@@ -1,8 +1,10 @@
 package Class.Card;
 
+import Class.Player.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.lang.Math;
 
 
 public class CardRandomer {
@@ -75,8 +77,8 @@ public class CardRandomer {
     }
 
     public void shufflingCard() {
-    	int i = 0;
-    	int r = i + (int) (Math.random() * (list.size() - i));
+    	// int i = 0;
+    	// int r = i + (int) (Math.random() * (list.size() - i));
     	Collections.shuffle(list);
     	shuffled.addAll(list);
 
@@ -118,7 +120,20 @@ public class CardRandomer {
             // System.out.println("Wild Card");
             WildCard wildcard = (WildCard)shuffled.get(0);
             wildcard.infoKartu();
+        }
     }
-}
-    
+
+    // Generate card for each player
+    public void generatePlayerCard(Player P) {
+        int min = 0;
+        int max = 53;
+        int range = max - min + 1;
+        PlayerCard player_card = P.getHandCard();
+
+        for (int i = 0; i < 7; i++) {
+            int rand = (int)(Math.random() * range) + min;
+            player_card.addCard(list.get(rand));
+        }
+        P.setSumCard();
+    }
 }

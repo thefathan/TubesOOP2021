@@ -1,11 +1,15 @@
 package Class.Card;
 
 // buat coba2 ajaa
+import Class.Player.*;
 import java.util.*;
 
 public class CardGenerator {
     public static void main(String[] args) {
         CardRandomer cardrandom = new CardRandomer();
+        PlayerCard pcard = new PlayerCard();
+        Player player = new Player("Edwin", pcard);
+
         cardrandom.addcard();
         cardrandom.printCard();
         System.out.println(" ");
@@ -13,6 +17,11 @@ public class CardGenerator {
         cardrandom.printShuffledCard();
         System.out.println(" ");
         cardrandom.printFirstShuffled();
+        cardrandom.generatePlayerCard(player);
+        System.out.println(" ");
+        player.listCard();
+        System.out.println(player.getPlayerName());
+        System.out.println(player.getPlayerSumCard());
     }
     
     

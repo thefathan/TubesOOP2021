@@ -5,11 +5,14 @@ import java.util.*;
 
 public class CardGenerator {
     public static void main(String[] args) {
-
         CardRandomer cardrandom = new CardRandomer();
         cardrandom.addcard();
-        // cardrandom.printCard();
+        cardrandom.printCard();
+        System.out.println(" ");
+        cardrandom.shufflingCard();
         cardrandom.printShuffledCard();
+        System.out.println(" ");
+        cardrandom.printFirstShuffled();
     }
     
     

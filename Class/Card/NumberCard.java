@@ -1,4 +1,4 @@
-package Card;
+package Class.Card;
 // kartu angka biasa
 
 

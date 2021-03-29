@@ -1,4 +1,4 @@
-package Card;
+package Class.Card;
 // Wildcard, Draw +4
 
 public class WildCard extends Card {

@@ -1,4 +1,4 @@
-package Card;
+package Class.Card;
 // Draw +2, reverse, Block
 
 public class PowerCard extends Card {

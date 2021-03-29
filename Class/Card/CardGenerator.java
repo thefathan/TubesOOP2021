@@ -1,4 +1,4 @@
-package Card;
+package Class.Card;
 
 // buat coba2 ajaa
 import java.util.*;

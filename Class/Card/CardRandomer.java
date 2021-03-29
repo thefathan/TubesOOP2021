@@ -74,19 +74,12 @@ public class CardRandomer {
     }
 
     public void shufflingCard() {
-        for (int i = 0; i < list.size(); i++) {
-            int r = i + (int) (Math.random() * (list.size() - i));
-            Card temp = (Card) list.get(r);
-            
-            Card listr = (Card) list.get(r);
-        	Card listi = (Card) list.get(i);
+    	int i = 0;
+    	int r = i + (int) (Math.random() * (list.size() - i));
+    	this.r = r;
+    	Collections.shuffle(list);
+    	shuffled.addAll(list);
 
-            listr = list.get(i);
-        	listi = temp;
-
-            Card sufled = (Card) this.shuffled.get(i);
-        	sufled = (Card) list.get(i);
-        }
     }
 
     public void printShuffledCard() {
@@ -108,4 +101,22 @@ public class CardRandomer {
             }
         }
     }
+    public void printFirstShuffled() {
+    	if (shuffled.get(0) instanceof NumberCard) {
+            // System.out.println("Number Card");
+            NumberCard numbercard = (NumberCard)shuffled.get(0);
+            numbercard.infoKartu();
+        }
+        else if (shuffled.get(0) instanceof PowerCard) {
+        	shufflingCard();
+            // System.out.println("Power Card");
+            PowerCard powercard = (PowerCard)shuffled.get(0);
+            powercard.infoKartu();
+        }
+        else if (shuffled.get(0) instanceof WildCard) {
+            // System.out.println("Wild Card");
+            WildCard wildcard = (WildCard)shuffled.get(0);
+            wildcard.infoKartu();
+    }
+}
 }

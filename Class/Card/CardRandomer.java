@@ -1,14 +1,14 @@
 package Card;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class CardRandomer {
     private List<Card> list = new ArrayList<Card>();
     private List<Card> shuffled = new ArrayList<Card>();
-    private int r;
-    
+
     public void addcard() {
         
         for (int i = 0; i <= 9; i++) {
@@ -77,7 +77,6 @@ public class CardRandomer {
     public void shufflingCard() {
     	int i = 0;
     	int r = i + (int) (Math.random() * (list.size() - i));
-    	this.r = r;
     	Collections.shuffle(list);
     	shuffled.addAll(list);
 
@@ -102,6 +101,7 @@ public class CardRandomer {
             }
         }
     }
+    
     public void printFirstShuffled() {
     	if (shuffled.get(0) instanceof NumberCard) {
             // System.out.println("Number Card");
@@ -120,4 +120,5 @@ public class CardRandomer {
             wildcard.infoKartu();
     }
 }
+    
 }

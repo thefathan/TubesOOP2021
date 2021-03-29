@@ -7,7 +7,8 @@ import java.util.List;
 public class CardRandomer {
     private List<Card> list = new ArrayList<Card>();
     private List<Card> shuffled = new ArrayList<Card>();
-
+    private int r;
+    
     public void addcard() {
         
         for (int i = 0; i <= 9; i++) {

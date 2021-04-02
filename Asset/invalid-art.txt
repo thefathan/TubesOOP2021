@@ -1,0 +1,9 @@
+
+
+
+    ___                           ___
+   |   |      Inputmu salah!     |   |
+   |   |                         |   |
+    |_|        Tekan enter        |_|
+     _       untuk mengulangi      _
+    [_]                           [_]

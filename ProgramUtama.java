@@ -12,28 +12,35 @@ public class ProgramUtama {
         String klikLanjut;
         Scanner scan = new Scanner(System.in); 
 
-        // cuma ascii art gambar Hiji
-        String fname = "Asset/ascii-art.txt";
+        // cuma ngeprint ascii art loading
+        printAscii("Asset/loading-art.txt");
+        printWithDelaysEveryChar("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", TimeUnit.MILLISECONDS, 10);
+        printWithDelays("", TimeUnit.MILLISECONDS, 400);
 
+        // cuma print ascii art tulisan hiji
+        printAscii("Asset/hiji-art.txt");
 
-        String line = null;
-        try {
-            FileReader fileReader = new FileReader(fname);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            while((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
-            bufferedReader.close();
-        }
-        catch(IOException ex) {
-            System.out.println("Gabisa buka file '" + fname + "'");
-        }
 
         // MULAI MASUK MENU
-        printWithDelays("============TEKAN ENTER UNTUK LANJUT============", TimeUnit.MILLISECONDS, 1000);
+        printWithDelays("============TEKAN ENTER UNTUK MULAI PERMAINAN============", TimeUnit.MILLISECONDS, 800);
         klikLanjut = scan.nextLine();
-        printWithDelaysEveryChar("\nSELAMAT DATANG DI PERMAINAN GOBLOK HIJI!", TimeUnit.MILLISECONDS, 100);
+        System.out.println("\nSELAMAT DATANG DI PERMAINAN GOBLOK HIJI!");
+        
+        
+        // block bawah ini belum bisa jalan
+        boolean jumlahPemainStatus = false;
+        int jumlahPemain;
+        while (jumlahPemainStatus = false) {
+            printWithDelays("Silahkan masukkan pemain yang mau main (2 - 6 orang): ", TimeUnit.MILLISECONDS, 600);
+            jumlahPemain = scan.nextInt();
+            if (jumlahPemain < 2 && jumlahPemain > 6) {
+                printAscii("Asset/invalid-art");
+            }
+            else {
+                break;
+            }
+        } 
+        // System.out.println(jumlahPemain);
     }
 
 
@@ -45,7 +52,7 @@ public class ProgramUtama {
 
 
 
-    
+
     // ngeprint output dengan delay
     public static void printWithDelays(String data, TimeUnit unit, long delay) throws InterruptedException {
         unit.sleep(delay);    
@@ -58,6 +65,23 @@ public class ProgramUtama {
         for (char ch : data.toCharArray()) {
             System.out.print(ch);
             unit.sleep(delay);
+        }
+    }
+
+    // Baca file external dan tampilin ke terminal
+    public static void printAscii(String filename) throws Exception {
+        String line = null;
+        try {
+            FileReader fileReader = new FileReader(filename);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            bufferedReader.close();
+        }
+        catch(IOException ex) {
+            System.out.println("Gabisa buka file '" + filename + "'");
         }
     }
 }

@@ -7,14 +7,13 @@ import java.util.*;
 public class CardGenerator {
     public static void main(String[] args) {
         CardRandomer cardrandom = new CardRandomer();
-        PlayerCard pcard = new PlayerCard();
-        Player player = new Player("Edwin", pcard);
+        Player player = new Player("Edwin");
 
         cardrandom.addcard();
         cardrandom.printCard();
         System.out.println(" ");
         cardrandom.shufflingCard();
-        cardrandom.printShuffledCard();
+        // cardrandom.printShuffledCard();
         System.out.println(" ");
         cardrandom.printFirstShuffled();
         cardrandom.generatePlayerCard(player);

@@ -128,7 +128,7 @@ public class CardRandomer {
         int max = 53;
         int range = max - min + 1;
         int rand = (int) (Math.random() * range) + min;
-        return (list.get(i));
+        return (list.get(rand));
     }
 
     // Generate card for each player
@@ -136,11 +136,11 @@ public class CardRandomer {
         int min = 0;
         int max = 53;
         int range = max - min + 1;
-        PlayerCard player_card = P.getHandCard();
+        Player.PlayerCard pCard = P.getHandCard();
 
         for (int i = 0; i < 7; i++) {
             int rand = (int) (Math.random() * range) + min;
-            player_card.addCard(list.get(rand));
+            pCard.addCard(list.get(rand));
         }
         P.setSumCard();
     }

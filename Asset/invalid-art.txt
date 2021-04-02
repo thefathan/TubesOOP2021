@@ -1,9 +1,6 @@
-
-
-
     ___                           ___
    |   |      Inputmu salah!     |   |
    |   |                         |   |
-    |_|        Tekan enter        |_|
+    |_|          Silahkan         |_|
      _       untuk mengulangi      _
     [_]                           [_]

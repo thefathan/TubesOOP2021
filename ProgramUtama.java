@@ -1,3 +1,6 @@
+// Program ini berjalan menurut urutaan kode dari atas ke bawah
+
+
 import java.util.*;
 import java.io.*;
 import java.lang.*;
@@ -27,20 +30,23 @@ public class ProgramUtama {
         System.out.println("\nSELAMAT DATANG DI PERMAINAN GOBLOK HIJI!");
         
         
-        // block bawah ini belum bisa jalan
-        boolean jumlahPemainStatus = false;
         int jumlahPemain;
-        while (jumlahPemainStatus = false) {
+        // block looping untuk menghasilkan nilai jumlahPemain
+        while (true) {
             printWithDelays("Silahkan masukkan pemain yang mau main (2 - 6 orang): ", TimeUnit.MILLISECONDS, 600);
             jumlahPemain = scan.nextInt();
-            if (jumlahPemain < 2 && jumlahPemain > 6) {
-                printAscii("Asset/invalid-art");
+            if ((jumlahPemain < 2) || (jumlahPemain > 6)) {
+                printAscii("Asset/invalid-art.txt");
+                printWithDelays("", TimeUnit.MILLISECONDS, 350);
+                klikLanjut = scan.nextLine();
             }
             else {
+                System.out.println("MASUK KE PROGRAM GAME...");
                 break;
             }
-        } 
-        // System.out.println(jumlahPemain);
+        }
+        System.out.println("jumlah pemain yang dihasilkan: " +jumlahPemain);
+        System.out.println("timestamp akhir (kondisi sudah masuk ke game, diisi dgn command ke game)");
     }
 
 

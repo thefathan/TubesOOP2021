@@ -3,12 +3,12 @@
     ||                                           ||
     ||  KETIKAN SALAH SATU DARI COMMAND BERIKUT  ||
     ||                                           ||
+    ||              >>  LIST CARD                ||  
     ||              >>  DISCARD                  ||
     ||              >>  DRAW                     ||
     ||              >>  DECLARE HIJI             ||
-    ||                                           ||
-    ||              >>  VIEW TURN                ||    
     ||              >>  LIST PLAYER              ||
+    ||              >>  VIEW TURN                ||  
     ||              >>  HELP                     ||
     ||              >>  CREDITS                  ||
     ||              >>  KELUAR                   ||

@@ -292,4 +292,17 @@ public class Game {
             System.out.println("Gabisa buka file '" + "Asset/help-asset.txt" + "'");
         }
     }
+
+
+    // get first player in game
+    public String getFirstFromlistPlayer() {
+        String retval = "Orang yang pertama main adalah ";
+        for (int i = 0; i < playerList.size(); i++) {
+            Player p = playerList.get(i);
+            if (p.isPlaying()) {
+                retval += p.getPlayerName();
+            }
+        }
+        return retval;
+    }
 }

@@ -51,11 +51,13 @@ public class ProgramUtama {
         System.out.println("\nJumlah pemain yang akan bermain ada " +jumlahPemain+ ", Siapa aja nih??\n");
         printWithDelays("", TimeUnit.MILLISECONDS, 850);
         
-        // inisiasi game berdasar jumlah pemain yang dimasukkan
+        // INISIASI GAME berdasar jumlah pemain yang dimasukkan
         Game game = new Game();
         game.GeneratePlayer(jumlahPemain);
         game.shufflePlayer();
         game.shuffleFirstCard();
+        printWithDelays(game.getFirstFromlistPlayer(), TimeUnit.MILLISECONDS, 300);
+        System.out.println("\n");
 
         
         core(game); // jump ke prosedur core
@@ -121,16 +123,48 @@ public class ProgramUtama {
             System.out.println("");
 
 
-            if (menu.equalsIgnoreCase("List Player")) {
+            if (menu.equalsIgnoreCase("Discard")) {
+                System.out.println("belum diimplementasi");
+            }
+
+
+            else if (menu.equalsIgnoreCase("Draw")) {
+                System.out.println("belum diimplementasi");
+            }
+
+            else if (menu.equalsIgnoreCase("Declare Hiji")) {
+                System.out.println("belum diimplementasi");
+            }
+
+            else if (menu.equalsIgnoreCase("View Turn")) {
+                System.out.println("belum diimplementasi");
+            }
+
+            else if (menu.equalsIgnoreCase("List Card")) {
+                System.out.println("belum diimplementasi");
+            }
+
+
+            else if (menu.equalsIgnoreCase("List Player")) {
                 game.listPlayer();
             }
+
+
             else if (menu.equalsIgnoreCase("Help")) {
                 game.help();
             }
+
+            else if (menu.equalsIgnoreCase("Credits")) {
+                printAscii("Asset/credits-art.txt");
+            }
+
+
             else if (menu.equalsIgnoreCase("Keluar")) {
                 System.out.println("Keluar program...\n");
                 break;
             }
+
+
             else {
                 printAscii("Asset/invalid-art.txt");
             }

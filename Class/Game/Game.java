@@ -18,12 +18,12 @@ public class Game {
 
     // Constructor
     public Game() {
-        playerList = new ArrayList();
-        shuffledPlayerList = new ArrayList();
-        cardrandom = new CardRandomer();
-        cardrandom.addcard();
-        cardColor = "NULL";
-        totalPlus = 0;
+        this.playerList = new ArrayList();
+        this.shuffledPlayerList = new ArrayList();
+        this.cardrandom = new CardRandomer();
+        this.cardrandom.addcard();
+        this.cardColor = "NULL";
+        this.totalPlus = 0;
     }
 
     // Generate some players based on user input
@@ -33,8 +33,8 @@ public class Game {
             System.out.print("Masukkan nama pemain " +(i+1)+ " : ");
             String s = sc.nextLine();
             Player player = new Player(s);
-            cardrandom.generatePlayerCard(player);
-            playerList.add(player);
+            this.cardrandom.generatePlayerCard(player);
+            this.playerList.add(player);
         }
         // sc.close();
         System.out.println("");
@@ -48,25 +48,25 @@ public class Game {
 
     // Shuffle player turn
     public void shufflePlayer() {
-        shuffledPlayerList.addAll(playerList);
-        Collections.shuffle(shuffledPlayerList);
-        Player p1 = shuffledPlayerList.get(0);
+        this.shuffledPlayerList.addAll(this.playerList);
+        Collections.shuffle(this.shuffledPlayerList);
+        Player p1 = this.shuffledPlayerList.get(0);
         p1.setPlaying(true);
-        currentPlayer = p1;
+        this.currentPlayer = p1;
 
-        setListPlayer(p1, playerList);
-        setListPlayer(p1, shuffledPlayerList);
+        setListPlayer(p1, this.playerList);
+        setListPlayer(p1, this.shuffledPlayerList);
     }
 
     // Shuffle First Card
     public void shuffleFirstCard() {
-        this.lastCard = cardrandom.shuffleCard();
-        this.cardColor = cardrandom.shuffleCard().getWarnaKartu();
+        this.lastCard = this.cardrandom.shuffleCard();
+        this.cardColor = this.cardrandom.shuffleCard().getWarnaKartu();
     }
 
     // Getter to current player index
     public int getPlayerIdx() {
-        return playerList.indexOf(currentPlayer);
+        return this.playerList.indexOf(this.currentPlayer);
     }
 
     // getter current player
@@ -95,16 +95,16 @@ public class Game {
 
     // Draw a card
     public void draw() {
-        Card drawCard = cardrandom.shuffleCard(); 
+        Card drawCard = this.cardrandom.shuffleCard(); 
         System.out.print("Anda mendapatkan kartu: ");
         drawCard.infoKartu();
         System.out.println("");
 
-        Player.PlayerCard pCard = currentPlayer.getHandCard();
+        Player.PlayerCard pCard = this.currentPlayer.getHandCard();
         pCard.addCard(drawCard);
-        currentPlayer.setSumCard();
-        setListPlayer(currentPlayer, playerList);
-        setListPlayer(currentPlayer, shuffledPlayerList);
+        this.currentPlayer.setSumCard();
+        setListPlayer(this.currentPlayer, this.playerList);
+        setListPlayer(this.currentPlayer, this.shuffledPlayerList);
     }
 
     // Discard a card
@@ -114,10 +114,10 @@ public class Game {
         String skill = C.getSkillKartu();
         String jenis = C.getJenisKartu();
 
-        int angkaLast = lastCard.getAngkaKartu();
-        String warnaLast = lastCard.getWarnaKartu();
-        String skillLast = lastCard.getSkillKartu();
-        String jenisLast = lastCard.getJenisKartu();
+        int angkaLast = this.lastCard.getAngkaKartu();
+        String warnaLast = this.lastCard.getWarnaKartu();
+        String skillLast = this.lastCard.getSkillKartu();
+        String jenisLast = this.lastCard.getJenisKartu();
 
         boolean isAngkaSama = (angka == angkaLast);
         boolean isWarnaSama = isStringSame(warna, warnaLast);
@@ -129,7 +129,7 @@ public class Game {
         if (C instanceof WildCard) {
             // Kartu Draw +4
             if (isStringSame(skill, "Draw +4")) {
-                totalPlus += 4;
+                this.totalPlus += 4;
             }
             Scanner sc = new Scanner(System.in);
 
@@ -141,22 +141,22 @@ public class Game {
 
             System.out.print("Pilihan warna: ");
             String input = sc.nextLine();
-            cardColor = input;
+            this.cardColor = input;
 
             System.out.print("Anda mengeluarkan kartu: ");
             C.infoKartu();
-            lastCard = C;
+            this.lastCard = C;
             
-            Player.PlayerCard pCard = currentPlayer.getHandCard();
+            Player.PlayerCard pCard = this.currentPlayer.getHandCard();
             pCard.removeCard(C);
-            currentPlayer.setSumCard();
+            this.currentPlayer.setSumCard();
 
-            setListPlayer(currentPlayer, playerList);
-            setListPlayer(currentPlayer, shuffledPlayerList);
+            setListPlayer(this.currentPlayer, this.playerList);
+            setListPlayer(this.currentPlayer, this.shuffledPlayerList);
         }
 
         // Kondisi ketika warna kartu tidak diganti
-        else if (isStringSame(warnaLast, cardColor)) {
+        else if (isStringSame(warnaLast, this.cardColor)) {
             // Warna kartu sama dengan warna kartu sebelumnya
             if (isWarnaSama) {
                 if (C instanceof PowerCard) {
@@ -167,37 +167,37 @@ public class Game {
                         if (isStringSame(skill, "Block")) {
                             newidx = idxPlayer + 1;
                         }
-                        if ((newidx > (playerList.size() - 1))) {
-                            newidx = idxPlayer - playerList.size();
+                        if ((newidx > (this.playerList.size() - 1))) {
+                            newidx = idxPlayer - this.playerList.size();
                         }
-                        nextPlayer = playerList.get(newidx);
+                        this.nextPlayer = this.playerList.get(newidx);
                     }
                     // Reverse
                     else if (isStringSame(skill, "Reverse")) {
-                        Collections.reverse(playerList);
+                        Collections.reverse(this.playerList);
                     }
                     // Draw +2
                     else {
                         // Kartu sebelumnya Draw +2 berwarna sama
                         if(isStringSame(skillLast, "Draw +2")) {
-                            totalPlus += 2;
+                            this.totalPlus += 2;
                         }
                         else {
-                            totalPlus = 2;
+                            this.totalPlus = 2;
                         }
                     }
                 }
                 // Kondisi ini juga berlaku untuk kartu dengan angka yang sama
                 System.out.print("Anda mengeluarkan kartu: ");
                 C.infoKartu();
-                lastCard = C;
+                this.lastCard = C;
 
-                Player.PlayerCard pCard = currentPlayer.getHandCard();
+                Player.PlayerCard pCard = this.currentPlayer.getHandCard();
                 pCard.removeCard(C);
-                currentPlayer.setSumCard();
+                this.currentPlayer.setSumCard();
 
-                setListPlayer(currentPlayer, playerList);
-                setListPlayer(currentPlayer, shuffledPlayerList);
+                setListPlayer(this.currentPlayer, this.playerList);
+                setListPlayer(this.currentPlayer, this.shuffledPlayerList);
             }
 
             // Skill kartu sama dengan skill kartu sebelumnya
@@ -206,30 +206,30 @@ public class Game {
                 if (isStringSame(skill, "Block")) {
                     // Kartu sebelumnya Block dengan warna berbeda
                     int newidx = idxPlayer + 1;
-                    if (newidx > (playerList.size() - 1)) {
-                        newidx = idxPlayer - playerList.size();
+                    if (newidx > (this.playerList.size() - 1)) {
+                        newidx = idxPlayer - this.playerList.size();
                     }
-                    nextPlayer = playerList.get(newidx);
+                    this.nextPlayer = this.playerList.get(newidx);
                 }
                 // Reverse
                 else if (isStringSame(skill, "Reverse")) {
-                    Collections.reverse(playerList);
+                    Collections.reverse(this.playerList);
                 }
                 // Draw +2
                 else {
                     // Kartu sebelumnya Draw +2 dengan warna berbeda
-                    totalPlus += 2;
+                    this.totalPlus += 2;
                 }
                 System.out.print("Anda mengeluarkan kartu: ");
                 C.infoKartu();
-                lastCard = C;
+                this.lastCard = C;
 
-                Player.PlayerCard pCard = currentPlayer.getHandCard();
+                Player.PlayerCard pCard = this.currentPlayer.getHandCard();
                 pCard.removeCard(C);
-                currentPlayer.setSumCard();
+                this.currentPlayer.setSumCard();
 
-                setListPlayer(currentPlayer, playerList);
-                setListPlayer(currentPlayer, shuffledPlayerList);
+                setListPlayer(this.currentPlayer, this.playerList);
+                setListPlayer(this.currentPlayer, this.shuffledPlayerList);
             }
 
             // Kondisi ketika kartu tidak sesuai peraturan
@@ -240,37 +240,37 @@ public class Game {
         }
 
         // Kondisi ketika warna kartu sudah diganti
-        else if (!isStringSame(warnaLast, cardColor)) {
+        else if (!isStringSame(warnaLast, this.cardColor)) {
             // Warna kartu sama dengan pilihan warna baru
-            if (isStringSame(warna, cardColor)) {
+            if (isStringSame(warna, this.cardColor)) {
                 if (C instanceof PowerCard) {
                     // Block
                     if (isStringSame(skill, "Block")) {
                         int newidx = idxPlayer + 2;
-                        if (newidx > (playerList.size() - 1)) {
-                            newidx = idxPlayer - playerList.size();
+                        if (newidx > (this.playerList.size() - 1)) {
+                            newidx = idxPlayer - this.playerList.size();
                         }
-                        nextPlayer = playerList.get(newidx);
+                        this.nextPlayer = this.playerList.get(newidx);
                     }
                     // Reverse
                     else if (isStringSame(skill, "Reverse")) {
-                        Collections.reverse(playerList);
+                        Collections.reverse(this.playerList);
                     }
                     // Draw +2
                     else {
-                        totalPlus = 2;
+                        this.totalPlus = 2;
                     }
                 }
                 System.out.print("Anda mengeluarkan kartu: ");
                 C.infoKartu();
-                lastCard = C;
+                this.lastCard = C;
 
-                Player.PlayerCard pCard = currentPlayer.getHandCard();
+                Player.PlayerCard pCard = this.currentPlayer.getHandCard();
                 pCard.removeCard(C);
-                currentPlayer.setSumCard();
+                this.currentPlayer.setSumCard();
 
-                setListPlayer(currentPlayer, playerList);
-                setListPlayer(currentPlayer, shuffledPlayerList);
+                setListPlayer(this.currentPlayer, this.playerList);
+                setListPlayer(this.currentPlayer, this.shuffledPlayerList);
             }
             // Kondisi ketika kartu tidak sesuai peraturan
             else {
@@ -302,14 +302,14 @@ public class Game {
     // Print player's card
     public void listCard() {
         System.out.print("Daftar kartu pemain ");
-        System.out.println(currentPlayer.getPlayerName() + ":");
-        currentPlayer.printCard();
+        System.out.println(this.currentPlayer.getPlayerName() + ":");
+        this.currentPlayer.printCard();
     }
 
     // Print all player in game
     public void listPlayer() {
-        for (int i = 0; i < playerList.size(); i++) {
-            Player p = playerList.get(i);
+        for (int i = 0; i < this.playerList.size(); i++) {
+            Player p = this.playerList.get(i);
             System.out.println("Pemain " + (i+1) + " : " + p.getPlayerName());
             System.out.println("Jumlah Kartu : " + p.getPlayerSumCard());
             if (p.isPlaying()) {
@@ -324,12 +324,12 @@ public class Game {
 
     // See all player turn
     public void viewTurn() {
-        int totalPlayer = shuffledPlayerList.size();
-        int idx = shuffledPlayerList.indexOf(currentPlayer);
+        int totalPlayer = this.shuffledPlayerList.size();
+        int idx = this.shuffledPlayerList.indexOf(this.currentPlayer);
         int count = 0;
 
         System.out.print("Sedang giliran : ");
-        System.out.println(currentPlayer.getPlayerName());
+        System.out.println(this.currentPlayer.getPlayerName());
 
         System.out.println("Giliran selanjutnya : ");
 
@@ -340,7 +340,7 @@ public class Game {
                 idx = idx - totalPlayer;
             }
             
-            Player p = shuffledPlayerList.get(idx);
+            Player p = this.shuffledPlayerList.get(idx);
             System.out.println(p.getPlayerName());
             count++;
         }
@@ -368,8 +368,8 @@ public class Game {
     // get first player in game
     public String getFirstFromlistPlayer() {
         String retval = "Orang yang saat ini main adalah ";
-        for (int i = 0; i < playerList.size(); i++) {
-            Player p = playerList.get(i);
+        for (int i = 0; i < this.playerList.size(); i++) {
+            Player p = this.playerList.get(i);
             if (p.isPlaying()) {
                 retval += p.getPlayerName();
             }

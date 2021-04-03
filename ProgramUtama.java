@@ -146,9 +146,24 @@ public class ProgramUtama {
                 String skillKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getSkillKartu();
                 int angkaKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getAngkaKartu();
 
-                Card discardCard = new Card(jenisKartu, warnaKartu, skillKartu, angkaKartu);
+                if ((angkaKartu != -99) && (warnaKartu != "NULL") && (skillKartu == "NULL")) {
+                    NumberCard numberCard = new NumberCard(jenisKartu, warnaKartu, skillKartu, angkaKartu);
+                    Card discardCard = (Card) numberCard;
+                    game.discard(discardCard);
+                }
+                else if ((angkaKartu == -99) && (warnaKartu != "NULL")&& (skillKartu != "NULL")) {
+                    PowerCard powerCard = new PowerCard(jenisKartu, warnaKartu, skillKartu, angkaKartu);
+                    Card discardCard = (Card) powerCard;
+                    game.discard(discardCard);
+                }
+                else if ((angkaKartu == -99) && (warnaKartu == "NULL")&& (skillKartu != "NULL")) {
+                    WildCard wildCard = new WildCard(jenisKartu, warnaKartu, skillKartu, angkaKartu);
+                    Card discardCard = (Card) wildCard;
+                    game.discard(discardCard);
+                }
+                
 
-                game.discard(discardCard);
+                
                 gameCounter++;
             }
 

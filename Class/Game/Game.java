@@ -36,7 +36,7 @@ public class Game {
             cardrandom.generatePlayerCard(player);
             playerList.add(player);
         }
-        sc.close();
+        // sc.close();
         System.out.println("");
     }
 
@@ -118,7 +118,7 @@ public class Game {
             pCard.removeCard(C);
             currentPlayer.setSumCard();
 
-            sc.close();
+            // sc.close();
         }
 
         // Kondisi ketika warna kartu tidak diganti
@@ -286,7 +286,7 @@ public class Game {
             while((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
             }
-            bufferedReader.close();
+            // bufferedReader.close();
         }
         catch(IOException ex) {
             System.out.println("Gabisa buka file '" + "Asset/help-asset.txt" + "'");

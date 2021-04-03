@@ -29,13 +29,13 @@ public class ProgramUtama {
         // MULAI MASUK MENU
         printWithDelays("\nTekan Enter untuk memulai...", TimeUnit.MILLISECONDS, 800);
         klikLanjut = scan.nextLine();
-        System.out.println("\nSELAMAT DATANG DI PERMAINAN GOBLOK HIJI!");
+        System.out.println("\n===============SELAMAT DATANG DI PERMAINAN GOBLOK HIJI!===============");
         
         
         int jumlahPemain;
         // block looping untuk menghasilkan nilai jumlahPemain
         while (true) {
-            printWithDelays("Silahkan masukkan pemain yang mau main (2 - 6 orang): ", TimeUnit.MILLISECONDS, 600);
+            printWithDelays("Untuk memulai gamenya, silahkan masukkan pemain yang mau bermain (hanya boleh 2 - 6 orang):\n>> ", TimeUnit.MILLISECONDS, 0);
             jumlahPemain = scan.nextInt();
             if ((jumlahPemain < 2) || (jumlahPemain > 6)) {
                 printAscii("Asset/invalid-art.txt");
@@ -43,23 +43,21 @@ public class ProgramUtama {
                 klikLanjut = scan.nextLine();
             }
             else {
-                System.out.println("\nMASUK KE PROGRAM GAME...");
+                printWithDelays("\nMemulai setup game.....", TimeUnit.MILLISECONDS, 600);
                 break;
             }
         }
-        System.out.println("\njumlah pemain yang bermain: " +jumlahPemain+ "\n");
+        printWithDelays("\n", TimeUnit.MILLISECONDS, 850);
+        System.out.println("\nJumlah pemain yang akan bermain ada " +jumlahPemain+ ", Siapa aja nih??\n");
+        printWithDelays("", TimeUnit.MILLISECONDS, 850);
         
         // inisiasi game berdasar jumlah pemain yang dimasukkan
         Game game = new Game();
         game.GeneratePlayer(jumlahPemain);
         game.shufflePlayer();
         game.shuffleFirstCard();
-        // game.listPlayer();
-        // game.help();
 
         
-
-        // code dibawah belum bisa jalan ntah kenapa, ceritanya menu yg ada didalam game
         core(game); // jump ke prosedur core
     }
 
@@ -105,24 +103,36 @@ public class ProgramUtama {
         }
     }
 
-    public static void core(Game game) {
+
+
+
+
+
+
+    public static void core(Game game) throws Exception {
         while (true) {
             Scanner scanmenu = new Scanner(System.in);
-            System.out.println("menu");
-            String menu = scanmenu.next();
 
-            if (menu.compareTo("ListPlayer") == 0) {
+            printWithDelays("\nTekan enter untuk lanjut.....", TimeUnit.MILLISECONDS, 600);
+            String klikLanjut = scanmenu.nextLine();
+            printAscii("Asset/menu-art.txt");
+            System.out.print("\nEnter Menu : ");
+            String menu = scanmenu.nextLine();
+            System.out.println("");
+
+
+            if (menu.equalsIgnoreCase("List Player")) {
                 game.listPlayer();
             }
-            else if (menu.compareTo("Help") == 0) {
+            else if (menu.equalsIgnoreCase("Help")) {
                 game.help();
             }
-            else if (menu.compareTo("Keluar") == 0) {
-                System.out.println("\nKeluar program...");
+            else if (menu.equalsIgnoreCase("Keluar")) {
+                System.out.println("Keluar program...\n");
                 break;
             }
             else {
-                System.out.println("\nAnda memasukkan perintah yang salah, mohon diulang...");
+                printAscii("Asset/invalid-art.txt");
             }
         }
     }

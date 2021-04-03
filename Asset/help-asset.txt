@@ -22,3 +22,5 @@ Game “HIJI” diadaptasi dari permainan kartu “UNO.” Ketentuan permainan a
 	   dalam waktu 3 detik. Apabila tidak, pemain wajib mengambil dua kartu dari deck.
 	7) Pemain dinyatakan menang apabila kartu yang dipegangnya sudah habis, dan permainan
 	   selesai.
+
+==================================================================================================

@@ -1,0 +1,16 @@
+
+    [  ] == === == >>> MAIN MENU <<< == === == [  ]
+    ||                                           ||
+    ||  KETIKAN SALAH SATU DARI COMMAND BERIKUT  ||
+    ||                                           ||
+    ||              >>  DISCARD                  ||
+    ||              >>  DRAW                     ||
+    ||              >>  DECLARE HIJI             ||
+    ||                                           ||
+    ||              >>  VIEW TURN                ||    
+    ||              >>  LIST PLAYER              ||
+    ||              >>  HELP                     ||
+    ||              >>  CREDITS                  ||
+    ||              >>  KELUAR                   ||
+    ||                                           ||
+    [  ] == === == === ==== ==== === == === == [  ]

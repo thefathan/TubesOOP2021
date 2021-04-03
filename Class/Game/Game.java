@@ -2,6 +2,7 @@
 package Class.Game;
 
 import java.util.*;
+import java.io.*;
 import Class.Card.*;
 import Class.Player.*;
 
@@ -29,13 +30,14 @@ public class Game {
     public void GeneratePlayer(int jumlah) {
         Scanner sc = new Scanner(System.in);
         for (int i = 0; i < jumlah; i++) {
-            System.out.print("Masukkan nama pemain: ");
+            System.out.print("Masukkan nama pemain " +(i+1)+ " : ");
             String s = sc.nextLine();
             Player player = new Player(s);
             cardrandom.generatePlayerCard(player);
             playerList.add(player);
         }
         sc.close();
+        System.out.println("");
     }
 
     // Shuffle player turn
@@ -238,8 +240,8 @@ public class Game {
     public void listPlayer() {
         for (int i = 0; i < playerList.size(); i++) {
             Player p = playerList.get(i);
-            System.out.println("Pemain " + (i+1) + ": " + p.getPlayerName());
-            System.out.println("Jumlah Kartu:" + p.getPlayerSumCard());
+            System.out.println("Pemain " + (i+1) + " : " + p.getPlayerName());
+            System.out.println("Jumlah Kartu : " + p.getPlayerSumCard());
             if (p.isPlaying()) {
                 System.out.println("Sedang giliran");
             }
@@ -256,10 +258,10 @@ public class Game {
         int idx = getPlayerIdx();
         int count = 0;
 
-        System.out.print("Sedang giliran: ");
+        System.out.print("Sedang giliran : ");
         System.out.println(currentPlayer.getPlayerName());
 
-        System.out.println("Giliran selanjutnya: ");
+        System.out.println("Giliran selanjutnya : ");
         while (count < totalPlayer) {
             System.out.print(count+1 + ". ");
             idx = idx + 1;
@@ -275,6 +277,19 @@ public class Game {
 
     // Print game's rule
     public void help() {
-        System.out.println("Help");
+        // System.out.println("Help");
+        String line = null;
+        try {
+            FileReader fileReader = new FileReader("Asset/help-asset.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            bufferedReader.close();
+        }
+        catch(IOException ex) {
+            System.out.println("Gabisa buka file '" + "Asset/help-asset.txt" + "'");
+        }
     }
 }

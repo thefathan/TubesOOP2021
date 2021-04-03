@@ -5,7 +5,9 @@ import java.util.*;
 import java.io.*;
 import java.lang.*;
 import java.util.concurrent.TimeUnit;
-import Class.*;
+import Class.Game.*;
+import Class.Card.*;
+import Class.Player.*;
 
 
 public class ProgramUtama {
@@ -25,7 +27,7 @@ public class ProgramUtama {
 
 
         // MULAI MASUK MENU
-        printWithDelays("============TEKAN ENTER UNTUK MULAI PERMAINAN============", TimeUnit.MILLISECONDS, 800);
+        printWithDelays("\nTekan Enter untuk memulai...", TimeUnit.MILLISECONDS, 800);
         klikLanjut = scan.nextLine();
         System.out.println("\nSELAMAT DATANG DI PERMAINAN GOBLOK HIJI!");
         
@@ -41,12 +43,40 @@ public class ProgramUtama {
                 klikLanjut = scan.nextLine();
             }
             else {
-                System.out.println("MASUK KE PROGRAM GAME...");
+                System.out.println("\nMASUK KE PROGRAM GAME...");
                 break;
             }
         }
-        System.out.println("jumlah pemain yang dihasilkan: " +jumlahPemain);
-        System.out.println("timestamp akhir (kondisi sudah masuk ke game, diisi dgn command ke game)");
+        System.out.println("\njumlah pemain yang bermain: " +jumlahPemain+ "\n");
+        
+        // inisiasi game berdasar jumlah pemain yang dimasukkan
+        Game game = new Game();
+        game.GeneratePlayer(jumlahPemain);
+        game.shufflePlayer();
+        game.shuffleFirstCard();
+        // game.listPlayer();
+        // game.help();
+
+        
+
+        // code dibawah belum bisa jalan ntah kenapa, ceritanya menu yg ada didalam game
+
+        boolean play = true;
+        int menu;
+        while (play) {
+            System.out.println("\nMasukkan menu yg dipilih\n\n1. List Player\n2. Help\n3. Keluar");
+            menu = scan.nextInt();
+            if (menu == 1) {
+                game.listPlayer();
+            }
+            else if (menu == 2) {
+                game.help();
+            }
+            else if (menu == 3) {
+                break;
+            }
+        }
+        System.out.println("KELUAR GAME...");
     }
 
 

@@ -14,6 +14,7 @@ public class Driver {
         g.shuffleFirstCard();
         g.listPlayer();
         g.help();
+        g.viewTurn();
         sc.close();
     }
 }

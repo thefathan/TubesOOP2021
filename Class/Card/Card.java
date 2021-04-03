@@ -4,7 +4,7 @@ package Class.Card;
 // Berisi tentang seluk beluk kartu HIJI 
 // diperuntukkan sebagai wadah bagi kartu Angka, Reverse, Block (Kartu yang memiliki warna)
 
-public abstract class Card {
+public class Card {
     private String jenisKartu;
     private String warnaKartu;
     private String skillKartu;
@@ -36,9 +36,15 @@ public abstract class Card {
     }
 
     // abstract method
-    public abstract void sayHi();
+    public void sayHi() {
+        System.out.println("Hi!");
+    }
 
-    public abstract void infoKartu();
+    public void infoKartu() {
+        System.out.println("Info Kartu");
+    }
 
-    public abstract void cardAbility();
+    public void cardAbility() {
+        System.out.println("Card Ability");
+    }
 }

@@ -13,9 +13,10 @@ public class Driver {
         g.shufflePlayer();
         g.shuffleFirstCard();
         System.out.println(g.getFirstFromlistPlayer());   
-        // g.listPlayer();
-        // g.help();
-        // g.viewTurn();
+        g.listPlayer();
+        g.help();
+        g.viewTurn();
+        g.listCard();
         // String menu;
         // while (true) {
         //     System.out.println("masukkan pilihan");

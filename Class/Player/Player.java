@@ -46,7 +46,7 @@ public class Player {
     }
 
     // Getter to print player's card
-    public void listCard() {
+    public void printCard() {
         handCard.printPCard();
     }
 
@@ -65,28 +65,7 @@ public class Player {
         this.playing = playing;
     }
 
-    public void declareHiji() {
-        // Cannot be declare due to timer availability
-        // int currentTime = LocalTime.now().getSecond() +
-        // LocalTime.now().getHour()*3600 + LocalTime.now().getMinute()*60 ;
-
-        // if (getPlayerSumCard() > 1) {
-        // // Draw
-        // }
-        // int Time = LocalTime.now().getSecond() + LocalTime.now().getHour()*3600 +
-        // LocalTime.now().getMinute()*60 ;
-
-        // int TimeDiff = Time - currentTime;
-        // else {
-        // // if (Timer < 3 detik &&) {
-        // setHiji(true);
-        // }
-        // System.out.println("Hiji!");
-        // int timeDiff;
-        // }
-    }
-
-    public class PlayerCard {
+    public class PlayerCard implements CardList {
         private List<Card> cardList;
     
         // Constructor 
@@ -108,9 +87,13 @@ public class Player {
     
         // Print each player's card
         public void printPCard() {
+            int i = 1;
             for (Card C : cardList) {
+                System.out.print(i + ". ");
                 C.infoKartu();
+                i++;
             }
+            System.out.println("");
         }
     
         // Getter player's total card in list

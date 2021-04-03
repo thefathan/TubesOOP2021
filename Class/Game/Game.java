@@ -40,12 +40,22 @@ public class Game {
         System.out.println("");
     }
 
+    // Setter to set player in each list
+    public void setListPlayer(Player P, List<Player> L) {
+        int idx = L.indexOf(P);
+        L.set(idx, P);
+    }
+
     // Shuffle player turn
     public void shufflePlayer() {
         shuffledPlayerList.addAll(playerList);
         Collections.shuffle(shuffledPlayerList);
         Player p1 = shuffledPlayerList.get(0);
         p1.setPlaying(true);
+        currentPlayer = p1;
+
+        setListPlayer(p1, playerList);
+        setListPlayer(p1, shuffledPlayerList);
     }
 
     // Shuffle First Card
@@ -72,6 +82,8 @@ public class Game {
         Player.PlayerCard pCard = currentPlayer.getHandCard();
         pCard.addCard(drawCard);
         currentPlayer.setSumCard();
+        setListPlayer(currentPlayer, playerList);
+        setListPlayer(currentPlayer, shuffledPlayerList);
     }
 
     // Discard a card
@@ -118,7 +130,8 @@ public class Game {
             pCard.removeCard(C);
             currentPlayer.setSumCard();
 
-            // sc.close();
+            setListPlayer(currentPlayer, playerList);
+            setListPlayer(currentPlayer, shuffledPlayerList);
         }
 
         // Kondisi ketika warna kartu tidak diganti
@@ -161,6 +174,9 @@ public class Game {
                 Player.PlayerCard pCard = currentPlayer.getHandCard();
                 pCard.removeCard(C);
                 currentPlayer.setSumCard();
+
+                setListPlayer(currentPlayer, playerList);
+                setListPlayer(currentPlayer, shuffledPlayerList);
             }
 
             // Skill kartu sama dengan skill kartu sebelumnya
@@ -190,6 +206,9 @@ public class Game {
                 Player.PlayerCard pCard = currentPlayer.getHandCard();
                 pCard.removeCard(C);
                 currentPlayer.setSumCard();
+
+                setListPlayer(currentPlayer, playerList);
+                setListPlayer(currentPlayer, shuffledPlayerList);
             }
 
             // Kondisi ketika kartu tidak sesuai peraturan
@@ -228,12 +247,42 @@ public class Game {
                 Player.PlayerCard pCard = currentPlayer.getHandCard();
                 pCard.removeCard(C);
                 currentPlayer.setSumCard();
+
+                setListPlayer(currentPlayer, playerList);
+                setListPlayer(currentPlayer, shuffledPlayerList);
             }
             // Kondisi ketika kartu tidak sesuai peraturan
             else {
                 System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
             }
         }
+    }
+
+    public void declareHiji() {
+        // if (sumCard > 1) {
+        //     for (int i = 0; i < 2; i++) {
+        //         draw();
+        //     }
+        // }
+        
+        // // Kartu sisa 1
+        // else {
+        //     if (timer < 3) {
+        //         currentPlayer.setHiji(true); 
+        //     }
+        //     else {
+        //         for (int i = 0; i < 2; i++) {
+        //             draw();
+        //         }
+        //     }
+        // }
+    }
+
+    // Print player's card
+    public void listCard() {
+        System.out.print("Daftar kartu pemain ");
+        System.out.println(currentPlayer.getPlayerName() + ":");
+        currentPlayer.printCard();
     }
 
     // Print all player in game
@@ -255,29 +304,30 @@ public class Game {
     // See all player turn
     public void viewTurn() {
         int totalPlayer = shuffledPlayerList.size();
-        int idx = getPlayerIdx();
+        int idx = shuffledPlayerList.indexOf(currentPlayer);
         int count = 0;
 
         System.out.print("Sedang giliran : ");
         System.out.println(currentPlayer.getPlayerName());
 
         System.out.println("Giliran selanjutnya : ");
-        while (count < totalPlayer) {
+
+        while (count < totalPlayer-1) {
             System.out.print(count+1 + ". ");
             idx = idx + 1;
             if (idx > (totalPlayer - 1)) {
                 idx = idx - totalPlayer;
             }
-
+            
             Player p = shuffledPlayerList.get(idx);
             System.out.println(p.getPlayerName());
             count++;
         }
+        System.out.println("");
     }
 
     // Print game's rule
     public void help() {
-        // System.out.println("Help");
         String line = null;
         try {
             FileReader fileReader = new FileReader("Asset/help-asset.txt");

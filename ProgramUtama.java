@@ -123,48 +123,73 @@ public class ProgramUtama {
             String menu = scanmenu.nextLine();
             System.out.println("");
 
-
             if (menu.equalsIgnoreCase("Discard")) {
+                Card last = game.getLastCard();
+                String color = game.getCardColor();
+                List<Card> list = game.getCurrentPlayerCardList();
+                boolean hasMatchingCard = false;
+                int i = 0;
 
-                Scanner scanAngka = new Scanner(System.in);
+                while ((!hasMatchingCard)  && (i < list.size())){
+                    boolean isNumSame = list.get(i).getAngkaKartu() == last.getAngkaKartu();
+                    boolean isColorSame = game.isStringSame(list.get(i).getWarnaKartu(), last.getWarnaKartu());
+                    boolean isSkillSame = game.isStringSame(list.get(i).getSkillKartu(), last.getSkillKartu());
 
-                System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
-                System.out.print("Nama kartu yang terakhir diturunkan adalah ");
-                System.out.println("");
-                game.printKartuTerakhirYangDiturunkan();
-                System.out.println("\nPerhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
-                for (int i = 0; i < game.getCurrentPlayerCardList().size(); i++) {
-                    System.out.print((i+1)+ ". ");
-                    game.getCurrentPlayerCardList().get(i).infoKartu();
+                    if (list.get(i) instanceof WildCard) {
+                        // System.out.println("kena di 1");
+                        hasMatchingCard = true;
+                    }
+                    else if (last.getWarnaKartu().equals(color)) {
+                        if (isColorSame) {
+                            // System.out.println("kena di 2");
+                            hasMatchingCard = true;
+                        }
+                        else if ((isSkillSame) && (last instanceof PowerCard)) {
+                            // System.out.println("kena di 3");
+                            hasMatchingCard = true;
+                        }
+                        else if (isNumSame) {
+                            // System.out.println("kena di 4");
+                            hasMatchingCard = true;
+                        }
+                    }
+                    else if (!last.getWarnaKartu().equals(color)) {
+                        if (game.isStringSame(list.get(i).getWarnaKartu(), color)) {
+                            // System.out.println("kena di 5");
+                            hasMatchingCard = true;
+                        }
+                    }
+                    i++;
                 }
-                System.out.println("\nPilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
 
-                int pilihanKartu = scanAngka.nextInt();
-
-                String jenisKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getJenisKartu();
-                String warnaKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getWarnaKartu();
-                String skillKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getSkillKartu();
-                int angkaKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getAngkaKartu();
-
-                if ((angkaKartu != -99) && (warnaKartu != "NULL") && (skillKartu == "NULL")) {
-                    NumberCard numberCard = new NumberCard(jenisKartu, warnaKartu, skillKartu, angkaKartu);
-                    Card discardCard = (Card) numberCard;
-                    game.discard(discardCard);
+                if (!hasMatchingCard) {
+                    System.out.println("Anda tidak memiliki kartu yang dapat dikeluarkan, silakan draw kartu terlebih dahulu!");
                 }
-                else if ((angkaKartu == -99) && (warnaKartu != "NULL")&& (skillKartu != "NULL")) {
-                    PowerCard powerCard = new PowerCard(jenisKartu, warnaKartu, skillKartu, angkaKartu);
-                    Card discardCard = (Card) powerCard;
-                    game.discard(discardCard);
-                }
-                else if ((angkaKartu == -99) && (warnaKartu == "NULL")&& (skillKartu != "NULL")) {
-                    WildCard wildCard = new WildCard(jenisKartu, warnaKartu, skillKartu, angkaKartu);
-                    Card discardCard = (Card) wildCard;
-                    game.discard(discardCard);
-                }
-                
+                else {
+                    Scanner scanAngka = new Scanner(System.in);
 
-                
-                gameCounter++;
+                    System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
+                    System.out.print("Nama kartu yang terakhir diturunkan adalah ");
+                    System.out.println("");
+                    game.printKartuTerakhirYangDiturunkan();
+                    System.out.println("\nPerhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
+                    for (i = 0; i < game.getCurrentPlayerCardList().size(); i++) {
+                        System.out.print((i+1)+ ". ");
+                        game.getCurrentPlayerCardList().get(i).infoKartu();
+                    }
+                    System.out.println("\nPilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
+
+                    int pilihanKartu = scanAngka.nextInt();
+                    while ((pilihanKartu > game.getCurrentPlayerCardList().size()) || (pilihanKartu < 1)) {
+                        System.out.println("\nInput tidak valid, silakan input ulang!");
+                        System.out.println("Pilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
+                        pilihanKartu = scanAngka.nextInt();
+                    }
+                    Card c = game.getCurrentPlayerCardList().get(pilihanKartu-1);
+                    game.discard(c);
+
+                    gameCounter++;
+                }
             }
 
 

@@ -142,6 +142,6 @@ public class CardRandomer {
             int rand = (int) (Math.random() * range) + min;
             pCard.addCard(list.get(rand));
         }
-        P.setSumCard();
+        P.setSumCard(pCard);
     }
 }

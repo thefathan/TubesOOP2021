@@ -51,10 +51,13 @@ public class Player {
     }
 
     // Setter player's total card
-    public void setSumCard() {
-        this.sumCard = handCard.lengthPC();
+    public void setSumCard(PlayerCard pc) {
+        this.sumCard = pc.lengthPC();
     }
 
+    public void setPlayerCard(PlayerCard pc) {
+        this.handCard = pc;
+    }
     // Setter player's hiji status
     public void setHiji(boolean hiji) {
         this.hiji = hiji;
@@ -71,8 +74,6 @@ public class Player {
         // Constructor 
         public PlayerCard() {
             this.cardList = new ArrayList<Card>();
-            // CardRandomer crand = new CardRandomer();
-            // crand.generatePlayerCard(cardList);
         }
     
         // Adding one card to player's card list

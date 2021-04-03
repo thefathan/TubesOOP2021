@@ -74,6 +74,11 @@ public class Game {
         return this.currentPlayer;
     }
 
+    // getter current player cardlist
+    public List<Card> getCurrentPlayerCardList() {
+        return this.currentPlayer.getHandCard().getCardList();
+    }
+
     public boolean isStringSame(String s1, String s2) {
         return s1.equals(s2);
     }
@@ -362,7 +367,7 @@ public class Game {
 
     // get first player in game
     public String getFirstFromlistPlayer() {
-        String retval = "Orang yang pertama main adalah ";
+        String retval = "Orang yang saat ini main adalah ";
         for (int i = 0; i < playerList.size(); i++) {
             Player p = playerList.get(i);
             if (p.isPlaying()) {

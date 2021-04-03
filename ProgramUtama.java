@@ -125,14 +125,30 @@ public class ProgramUtama {
 
 
             if (menu.equalsIgnoreCase("Discard")) {
+
+                Scanner scanAngka = new Scanner(System.in);
+
                 System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
                 System.out.print("Nama kartu yang terakhir diturunkan adalah ");
                 System.out.println("");
                 game.printKartuTerakhirYangDiturunkan();
-                System.out.println("Perhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
-                game.listCard();
-                System.out.println("");
+                System.out.println("\nPerhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
+                for (int i = 0; i < game.getCurrentPlayerCardList().size(); i++) {
+                    System.out.print((i+1)+ ". ");
+                    game.getCurrentPlayerCardList().get(i).infoKartu();
+                }
+                System.out.println("\nPilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
 
+                int pilihanKartu = scanAngka.nextInt();
+
+                String jenisKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getJenisKartu();
+                String warnaKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getWarnaKartu();
+                String skillKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getSkillKartu();
+                int angkaKartu = game.getCurrentPlayerCardList().get(pilihanKartu-1).getAngkaKartu();
+
+                Card discardCard = new Card(jenisKartu, warnaKartu, skillKartu, angkaKartu);
+
+                game.discard(discardCard);
                 gameCounter++;
             }
 

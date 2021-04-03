@@ -41,6 +41,9 @@ public class NumberCard extends Card {
         else if (this.getAngkaKartu() == 9) {
             System.out.println("Nine " +this.getWarnaKartu());
         }
+        else if (this.getAngkaKartu() == -99) {
+            System.out.println("Dummy " +this.getWarnaKartu());
+        }
     }
 
     public void cardAbility() {

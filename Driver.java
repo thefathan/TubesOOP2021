@@ -14,9 +14,13 @@ public class Driver {
         g.shuffleFirstCard();
         System.out.println(g.getFirstFromlistPlayer()); 
         g.listPlayer();
+        g.printKartuTerakhirYangDiturunkan();
         // g.help();
         // g.viewTurn();
         g.listCard();
+        for (int i = 0; i < g.getCurrentPlayerCardList().size(); i++) {
+            System.out.println(g.getCurrentPlayerCardList().get(i).getAngkaKartu());
+        }
         // String menu;
         // while (true) {
         //     System.out.println("masukkan pilihan");

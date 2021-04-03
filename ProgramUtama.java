@@ -60,23 +60,7 @@ public class ProgramUtama {
         
 
         // code dibawah belum bisa jalan ntah kenapa, ceritanya menu yg ada didalam game
-
-        boolean play = true;
-        int menu;
-        while (play) {
-            System.out.println("\nMasukkan menu yg dipilih\n\n1. List Player\n2. Help\n3. Keluar");
-            menu = scan.nextInt();
-            if (menu == 1) {
-                game.listPlayer();
-            }
-            else if (menu == 2) {
-                game.help();
-            }
-            else if (menu == 3) {
-                break;
-            }
-        }
-        System.out.println("KELUAR GAME...");
+        core(game); // jump ke prosedur core
     }
 
 
@@ -118,6 +102,28 @@ public class ProgramUtama {
         }
         catch(IOException ex) {
             System.out.println("Gabisa buka file '" + filename + "'");
+        }
+    }
+
+    public static void core(Game game) {
+        while (true) {
+            Scanner scanmenu = new Scanner(System.in);
+            System.out.println("menu");
+            String menu = scanmenu.next();
+
+            if (menu.compareTo("ListPlayer") == 0) {
+                game.listPlayer();
+            }
+            else if (menu.compareTo("Help") == 0) {
+                game.help();
+            }
+            else if (menu.compareTo("Keluar") == 0) {
+                System.out.println("\nKeluar program...");
+                break;
+            }
+            else {
+                System.out.println("\nAnda memasukkan perintah yang salah, mohon diulang...");
+            }
         }
     }
 }

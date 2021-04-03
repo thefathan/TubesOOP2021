@@ -18,7 +18,7 @@ public class CardGenerator {
         cardrandom.printFirstShuffled();
         cardrandom.generatePlayerCard(player);
         System.out.println(" ");
-        player.listCard();
+        player.getHandCard().printPCard(); 
         System.out.println(player.getPlayerName());
         System.out.println(player.getPlayerSumCard());
     }

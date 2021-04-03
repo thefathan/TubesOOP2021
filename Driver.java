@@ -12,10 +12,10 @@ public class Driver {
         g.GeneratePlayer(jumlah);
         g.shufflePlayer();
         g.shuffleFirstCard();
-        System.out.println(g.getFirstFromlistPlayer());   
+        System.out.println(g.getFirstFromlistPlayer()); 
         g.listPlayer();
-        g.help();
-        g.viewTurn();
+        // g.help();
+        // g.viewTurn();
         g.listCard();
         // String menu;
         // while (true) {

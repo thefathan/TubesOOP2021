@@ -113,6 +113,7 @@ public class ProgramUtama {
 
     public static void core(Game game) throws Exception {
         while (true) {
+            int gameCounter = 0;
             Scanner scanmenu = new Scanner(System.in);
 
             printWithDelays("\nTekan enter untuk lanjut.....", TimeUnit.MILLISECONDS, 600);
@@ -124,24 +125,36 @@ public class ProgramUtama {
 
 
             if (menu.equalsIgnoreCase("Discard")) {
-                System.out.println("belum diimplementasi");
+                System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
+                System.out.print("Nama kartu yang terakhir diturunkan adalah ");
+                System.out.println("");
+                game.printKartuTerakhirYangDiturunkan();
+                System.out.println("Perhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
+                game.listCard();
+                System.out.println("");
+
+                gameCounter++;
             }
 
 
             else if (menu.equalsIgnoreCase("Draw")) {
-                System.out.println("belum diimplementasi");
+                game.draw();
+
+                gameCounter++;
             }
 
             else if (menu.equalsIgnoreCase("Declare Hiji")) {
                 System.out.println("belum diimplementasi");
+
+
             }
 
             else if (menu.equalsIgnoreCase("View Turn")) {
-                System.out.println("belum diimplementasi");
+                game.viewTurn();
             }
 
             else if (menu.equalsIgnoreCase("List Card")) {
-                System.out.println("belum diimplementasi");
+                game.listCard();
             }
 
 

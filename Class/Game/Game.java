@@ -60,7 +60,8 @@ public class Game {
 
     // Shuffle First Card
     public void shuffleFirstCard() {
-        lastCard = cardrandom.shuffleCard();
+        this.lastCard = cardrandom.shuffleCard();
+        this.cardColor = cardrandom.shuffleCard().getWarnaKartu();
     }
 
     // Getter to current player index
@@ -68,8 +69,23 @@ public class Game {
         return playerList.indexOf(currentPlayer);
     }
 
+    // getter current player
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
     public boolean isStringSame(String s1, String s2) {
         return s1.equals(s2);
+    }
+
+    // mengetahui nama kartu terakhir yang diturunkan pemain sebelumnya
+    public void printKartuTerakhirYangDiturunkan() {
+        this.lastCard.infoKartu();
+    }
+
+    // getter untuk warna kartu yaang terakhir diperintahkan
+    public String getWarnaKartuYangDimainkan() {
+        return this.cardColor;
     }
 
     // Draw a card
@@ -214,7 +230,7 @@ public class Game {
             // Kondisi ketika kartu tidak sesuai peraturan
             // Warna/skill/angka tidak ada yang sama
             else {
-                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
+                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan, silahkan pilih kartu lain/draw card");
             }
         }
 
@@ -253,7 +269,7 @@ public class Game {
             }
             // Kondisi ketika kartu tidak sesuai peraturan
             else {
-                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
+                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan, silahkan pilih kartu lain/draw card");
             }
         }
     }

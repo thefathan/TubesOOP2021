@@ -200,7 +200,7 @@ public class ProgramUtama {
             }
 
             else if (menu.equalsIgnoreCase("Declare Hiji")) {
-                System.out.println("belum diimplementasi");
+                game.declareHiji();
 
 
             }

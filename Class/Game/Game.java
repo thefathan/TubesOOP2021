@@ -336,23 +336,19 @@ public class Game {
     }
 
     public void declareHiji() {
-        // if (sumCard > 1) {
-        //     for (int i = 0; i < 2; i++) {
-        //         draw();
-        //     }
-        // }
+        if (this.currentPlayer.getHandCard().lengthPC() > 1) {
+            System.out.println("Kamu mendeclare Hiji, padahal kartu anda masih lebih dari 1, kartu di tangan kamu otomatis bertambah 2\n");
+            for (int i = 0; i < 2; i++) {
+                draw();
+            }
+        }
         
-        // // Kartu sisa 1
-        // else {
-        //     if (timer < 3) {
-        //         currentPlayer.setHiji(true); 
-        //     }
-        //     else {
-        //         for (int i = 0; i < 2; i++) {
-        //             draw();
-        //         }
-        //     }
-        // }
+        // // Kartu sisa 1, (( BELUM MENGIMPLEMENTASIKAN TIMER ))
+        else {
+            this.currentPlayer.setHiji(true);
+            System.out.println("Kamu berhasil mendeclare Hiji. sisa kartu ditanganmu adalah\n");
+            getLastCard().infoKartu();
+        }
     }
 
     // Print player's card

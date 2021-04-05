@@ -8,7 +8,8 @@
     ||              >>  DRAW                     ||
     ||              >>  DECLARE HIJI             ||
     ||              >>  LIST PLAYER              ||
-    ||              >>  VIEW TURN                ||  
+    ||              >>  VIEW TURN                || 
+    ||              >>  NEXT TURN                || 
     ||              >>  HELP                     ||
     ||              >>  CREDITS                  ||
     ||              >>  KELUAR                   ||

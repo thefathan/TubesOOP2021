@@ -116,7 +116,7 @@ public class ProgramUtama {
         int discardCounter = 0;
         int drawCounter = 0;
         boolean haveWinner = false;
-        Player winner;
+        Player winner = new Player("Default");
         while (true) {
             Scanner scanmenu = new Scanner(System.in);
 
@@ -268,7 +268,7 @@ public class ProgramUtama {
             }
 
             if (haveWinner) {
-                System.out.println("Game dimenangkan oleh: " + winner.getPlayerName()\n);
+                System.out.println("Game dimenangkan oleh: " + winner.getPlayerName() + " \n");
                 break;
             }
         }

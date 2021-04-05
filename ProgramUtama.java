@@ -20,14 +20,14 @@ public class ProgramUtama {
         // cuma ngeprint ascii art loading
         printAscii("Asset/loading-art.txt");
         printWithDelaysEveryChar("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", TimeUnit.MILLISECONDS, 10);
-        printWithDelays("", TimeUnit.MILLISECONDS, 400);
+        printWithDelays("", TimeUnit.MILLISECONDS, 0);
 
         // cuma print ascii art tulisan hiji
         printAscii("Asset/hiji-art.txt");
 
 
         // MULAI MASUK MENU
-        printWithDelays("\nTekan Enter untuk memulai...", TimeUnit.MILLISECONDS, 800);
+        printWithDelays("\nTekan Enter untuk memulai...", TimeUnit.MILLISECONDS, 0);
         klikLanjut = scan.nextLine();
         System.out.println("\n===============SELAMAT DATANG DI PERMAINAN GOBLOK HIJI!===============");
         
@@ -43,7 +43,7 @@ public class ProgramUtama {
                 klikLanjut = scan.nextLine();
             }
             else {
-                printWithDelays("\nMemulai setup game.....", TimeUnit.MILLISECONDS, 600);
+                printWithDelays("\nMemulai setup game.....", TimeUnit.MILLISECONDS, 0);
                 break;
             }
         }
@@ -56,7 +56,7 @@ public class ProgramUtama {
         game.GeneratePlayer(jumlahPemain);
         game.shufflePlayer();
         game.shuffleFirstCard();
-        printWithDelays(game.getFirstFromlistPlayer(), TimeUnit.MILLISECONDS, 300);
+        printWithDelays(game.getFirstFromlistPlayer(), TimeUnit.MILLISECONDS, 0);
         System.out.println("\n");
 
         
@@ -112,8 +112,12 @@ public class ProgramUtama {
 
 
     public static void core(Game game) throws Exception {
+        int gameCounter = 0;
+        int discardCounter = 0;
+        int drawCounter = 0;
+        boolean haveWinner = false;
+        Player winner;
         while (true) {
-            int gameCounter = 0;
             Scanner scanmenu = new Scanner(System.in);
 
             printWithDelays("\nTekan enter untuk lanjut.....", TimeUnit.MILLISECONDS, 600);
@@ -124,79 +128,89 @@ public class ProgramUtama {
             System.out.println("");
 
             if (menu.equalsIgnoreCase("Discard")) {
-                Card last = game.getLastCard();
-                String color = game.getCardColor();
-                List<Card> list = game.getCurrentPlayerCardList();
-                boolean hasMatchingCard = false;
-                int i = 0;
-
-                while ((!hasMatchingCard)  && (i < list.size())){
-                    boolean isNumSame = list.get(i).getAngkaKartu() == last.getAngkaKartu();
-                    boolean isColorSame = game.isStringSame(list.get(i).getWarnaKartu(), last.getWarnaKartu());
-                    boolean isSkillSame = game.isStringSame(list.get(i).getSkillKartu(), last.getSkillKartu());
-
-                    if (list.get(i) instanceof WildCard) {
-                        // System.out.println("kena di 1");
-                        hasMatchingCard = true;
-                    }
-                    else if (last.getWarnaKartu().equals(color)) {
-                        if (isColorSame) {
-                            // System.out.println("kena di 2");
-                            hasMatchingCard = true;
-                        }
-                        else if ((isSkillSame) && (last instanceof PowerCard)) {
-                            // System.out.println("kena di 3");
-                            hasMatchingCard = true;
-                        }
-                        else if (isNumSame) {
-                            // System.out.println("kena di 4");
-                            hasMatchingCard = true;
-                        }
-                    }
-                    else if (!last.getWarnaKartu().equals(color)) {
-                        if (game.isStringSame(list.get(i).getWarnaKartu(), color)) {
-                            // System.out.println("kena di 5");
-                            hasMatchingCard = true;
-                        }
-                    }
-                    i++;
-                }
-
-                if (!hasMatchingCard) {
-                    System.out.println("Anda tidak memiliki kartu yang dapat dikeluarkan, silakan draw kartu terlebih dahulu!");
+                if (!game.hasMatchingCard()) {
+                    System.out.println("Anda tidak memiliki kartu yang dapat dikeluarkan!");
                 }
                 else {
-                    Scanner scanAngka = new Scanner(System.in);
+                    System.out.println(game.hasMultipleCard());
+                    if ((game.hasMultipleCard()) && (discardCounter >= 1)) {
+                        System.out.println("Kondisi 1\n");
+                        Scanner scanAngka = new Scanner(System.in);
 
-                    System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
-                    System.out.print("Nama kartu yang terakhir diturunkan adalah ");
-                    System.out.println("");
-                    game.printKartuTerakhirYangDiturunkan();
-                    System.out.println("\nPerhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
-                    for (i = 0; i < game.getCurrentPlayerCardList().size(); i++) {
-                        System.out.print((i+1)+ ". ");
-                        game.getCurrentPlayerCardList().get(i).infoKartu();
+                        System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
+                        System.out.print("Nama kartu yang terakhir diturunkan adalah ");
+                        System.out.println("");
+                        game.printKartuTerakhirYangDiturunkan();
+                        System.out.println("\nPerhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
+                        for (int i = 0; i < game.getCurrentPlayerCardList().size(); i++) {
+                            System.out.print((i+1)+ ". ");
+                            game.getCurrentPlayerCardList().get(i).infoKartu();
+                        }
+                        System.out.println("\nPilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
+
+                        int pilihanKartu = scanAngka.nextInt();
+                        while ((pilihanKartu > game.getCurrentPlayerCardList().size()) || (pilihanKartu < 1)) {
+                            System.out.println("\nInput tidak valid, silakan input ulang!");
+                            System.out.println("Pilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
+                            pilihanKartu = scanAngka.nextInt();
+                        }
+                        Card c = game.getCurrentPlayerCardList().get(pilihanKartu-1);
+                        game.discard2(c);
+
+                        discardCounter++;
+                        gameCounter++;
                     }
-                    System.out.println("\nPilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
+                    else if (discardCounter == 0) {
+                        System.out.println("Kondisi 2\n");
+                        Scanner scanAngka = new Scanner(System.in);
 
-                    int pilihanKartu = scanAngka.nextInt();
-                    while ((pilihanKartu > game.getCurrentPlayerCardList().size()) || (pilihanKartu < 1)) {
-                        System.out.println("\nInput tidak valid, silakan input ulang!");
-                        System.out.println("Pilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
-                        pilihanKartu = scanAngka.nextInt();
+                        System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
+                        System.out.print("Nama kartu yang terakhir diturunkan adalah ");
+                        System.out.println("");
+                        game.printKartuTerakhirYangDiturunkan();
+                        System.out.println("\nPerhatikan juga bahwa kartu yg bisa didiscard hanya kartu yang ada di tangan kamu.");
+                        for (int i = 0; i < game.getCurrentPlayerCardList().size(); i++) {
+                            System.out.print((i+1)+ ". ");
+                            game.getCurrentPlayerCardList().get(i).infoKartu();
+                        }
+                        System.out.println("\nPilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
+
+                        int pilihanKartu = scanAngka.nextInt();
+                        while ((pilihanKartu > game.getCurrentPlayerCardList().size()) || (pilihanKartu < 1)) {
+                            System.out.println("\nInput tidak valid, silakan input ulang!");
+                            System.out.println("Pilihlah kartu yg akan didiscard (tuliskan nomor urutannya) :");
+                            pilihanKartu = scanAngka.nextInt();
+                        }
+                        Card c = game.getCurrentPlayerCardList().get(pilihanKartu-1);
+                        game.discard(c);
+
+                        discardCounter++;
+                        gameCounter++;
                     }
-                    Card c = game.getCurrentPlayerCardList().get(pilihanKartu-1);
-                    game.discard(c);
-
-                    gameCounter++;
+                    else {
+                        System.out.println("Kondisi 3\n");
+                        System.out.println("Maaf, anda tidak memiliki kartu yang dapat dikeluarkan");
+                        // game.nextTurn();
+                        
+                    }
+                    System.out.println("Discard Counter " + discardCounter + "\n");
+                    if (game.getCurrentPlayerCardList().size() == 0) {
+                        winner = game.getCurrentPlayer();
+                        haveWinner = true;
+                    }
                 }
             }
 
 
             else if (menu.equalsIgnoreCase("Draw")) {
-                game.draw();
-
-                gameCounter++;
+                if (drawCounter == 0) {
+                    game.draw();
+                    drawCounter++;
+                    gameCounter++;
+                }
+                else {
+                    System.out.println("Maaf, anda sudah melakukan draw!");
+                }
             }
 
             else if (menu.equalsIgnoreCase("Declare Hiji")) {
@@ -227,6 +241,17 @@ public class ProgramUtama {
                 printAscii("Asset/credits-art.txt");
             }
 
+            else if (menu.equalsIgnoreCase("Next Turn")) {
+                System.out.println("Pemain selanjutnya akan bermain dalam 5 detik");
+                // if (timer >= 3) && (!game.getCurrentPlayer().isHiji()) {
+                //     for (int i = 0; i < 2; i++) {
+                //         game.draw();
+                //     }
+                // }
+                game.nextTurn();
+                drawCounter = 0;
+                discardCounter = 0;
+            }
 
             else if (menu.equalsIgnoreCase("Keluar")) {
                 System.out.println("Keluar program...\n");
@@ -236,6 +261,15 @@ public class ProgramUtama {
 
             else {
                 printAscii("Asset/invalid-art.txt");
+            }
+
+            if (game.getCurrentPlayerCardList().size() == 1) {
+                // timer jalan
+            }
+
+            if (haveWinner) {
+                System.out.println("Game dimenangkan oleh: " + winner.getPlayerName()\n);
+                break;
             }
         }
     }

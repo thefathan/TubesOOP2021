@@ -143,6 +143,11 @@ public class Game {
         if (C instanceof WildCard) {
             if ((skillLast.equals("Draw +4")) && (skill.equals("Wildcard"))) {
                 System.out.println("Kartu Wildcard tidak bisa dikeluarkan setelah kartu Draw +4!");
+                System.out.print("Anda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya");
+                for (int i = 0; i < totalPlus; i++){
+                    draw();
+                }
+                totalPlus = 0;
             }
             else {
                 // Kartu Draw +4
@@ -190,7 +195,7 @@ public class Game {
                 setListPlayer(currentPlayer, shuffledPlayerList);
             }
         }
-
+        
         // Kondisi ketika warna kartu tidak diganti
         else if (isStringSame(warnaLast, cardColor)) {
             // Warna kartu sama dengan warna kartu sebelumnya
@@ -199,10 +204,10 @@ public class Game {
                     // Block
                     if (isStringSame(skill, "Block")) {
                         int newidx = idxPlayer + 2;
-                        // Kartu sebelumnya Block berwarna sama 
-                        if (isStringSame(skill, "Block")) {
-                            newidx = idxPlayer + 1;
-                        }
+                        // // Kartu sebelumnya Block berwarna sama 
+                        // if (isStringSame(skill, "Block")) {
+                        //     newidx = idxPlayer + 1;
+                        // }
                         if ((newidx > (playerList.size() - 1))) {
                             newidx = idxPlayer - playerList.size();
                         }
@@ -290,6 +295,13 @@ public class Game {
             // Warna/skill/angka tidak ada yang sama
             else {
                 System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan, silahkan pilih kartu lain/draw card");
+                if ((!isStringSame(skillLast, skill)) && (totalPlus > 0)) {
+                    System.out.print("Anda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya");
+                    for (int i = 0; i < totalPlus; i++) {
+                        draw();
+                    }
+                    // nextTurn();
+                }
             }
         }
 
@@ -331,7 +343,116 @@ public class Game {
             // Kondisi ketika kartu tidak sesuai peraturan
             else {
                 System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan, silahkan pilih kartu lain/draw card");
+                if ((!isStringSame(skillLast, skill)) && (totalPlus > 0)) {
+                    System.out.print("Anda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya");
+                    for (int i = 0; i < totalPlus; i++) {
+                        draw();
+                    }
+                    // nextTurn();
+                }
             }
+        }
+    }
+
+    // Check is player has multiple same card
+    public boolean hasMultipleCard() {
+        List<Card> list = getCurrentPlayerCardList();
+        boolean hasMultiple = false;
+        int i = 0;
+
+        while ((!hasMultiple) && (i < list.size())) {
+            boolean isNumSame = list.get(i).getAngkaKartu() == lastCard.getAngkaKartu();
+            boolean isColorSame = isStringSame(list.get(i).getWarnaKartu(), lastCard.getWarnaKartu());
+            boolean isSkillSame = isStringSame(list.get(i).getSkillKartu(), lastCard.getSkillKartu());
+
+            if ((list.get(i) instanceof WildCard) && (isSkillSame)) {
+                hasMultiple = true;
+            }
+            else if (list.get(i) instanceof NumberCard) {
+                if ((isNumSame) && (isColorSame)) {
+                    hasMultiple = true;
+                }
+            }
+            else if (list.get(i) instanceof PowerCard) {
+                if ((isSkillSame) && (isColorSame)) {
+                    hasMultiple = true;
+                }
+            }
+            i++;
+        }
+        return hasMultiple;
+    }
+
+    // Multiple Discard
+    public void discard2(Card C) {
+        int angka = C.getAngkaKartu();
+        String warna = C.getWarnaKartu();
+        String skill = C.getSkillKartu();
+        String jenis = C.getJenisKartu();
+
+        int angkaLast = lastCard.getAngkaKartu();
+        String warnaLast = lastCard.getWarnaKartu();
+        String skillLast = lastCard.getSkillKartu();
+        String jenisLast = lastCard.getJenisKartu();
+
+        boolean isAngkaSama = (angka == angkaLast);
+        boolean isWarnaSama = isStringSame(warna, warnaLast);
+        boolean isSkillSama = isStringSame(skill, skillLast);
+
+        if (C instanceof NumberCard) {
+            if (isAngkaSama && isWarnaSama) {
+                System.out.print("Anda mengeluarkan kartu: ");
+                C.infoKartu();
+                lastCard = C;
+                cardColor = C.getWarnaKartu();
+    
+                Player.PlayerCard pCard = currentPlayer.getHandCard();
+                pCard.removeCard(C);
+                currentPlayer.setSumCard(pCard);
+                currentPlayer.setPlayerCard(pCard);
+    
+                setListPlayer(currentPlayer, playerList);
+                setListPlayer(currentPlayer, shuffledPlayerList);
+            }
+        }
+        
+        else if (C instanceof PowerCard) {
+            if (isSkillSama && isWarnaSama) {
+                System.out.print("Anda mengeluarkan kartu: ");
+                C.infoKartu();
+                lastCard = C;
+                cardColor = C.getWarnaKartu();
+    
+                Player.PlayerCard pCard = currentPlayer.getHandCard();
+                pCard.removeCard(C);
+                currentPlayer.setSumCard(pCard);
+                currentPlayer.setPlayerCard(pCard);
+    
+                setListPlayer(currentPlayer, playerList);
+                setListPlayer(currentPlayer, shuffledPlayerList);
+            }
+        }
+
+        else if (C instanceof WildCard) {
+            if (isSkillSama) {
+                System.out.print("Anda mengeluarkan kartu: ");
+                C.infoKartu();
+                lastCard = C;
+                cardColor = C.getWarnaKartu();
+    
+                Player.PlayerCard pCard = currentPlayer.getHandCard();
+                pCard.removeCard(C);
+                currentPlayer.setSumCard(pCard);
+                currentPlayer.setPlayerCard(pCard);
+    
+                setListPlayer(currentPlayer, playerList);
+                setListPlayer(currentPlayer, shuffledPlayerList);
+            }
+        }
+
+        else {
+            System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan, silahkan pilih kartu lain/draw card");
+            // nextTurn();
         }
     }
 
@@ -342,12 +463,17 @@ public class Game {
                 draw();
             }
         }
-        
+        // else if ((timer >= 3) && (currentPlayer.getHandCard().lengthPC() == 1)) {
+        //     System.out.println("Meski kamu hanya memiliki 1 kartu, tetapi kamu mendeclare Hiji lebih dari 3 detik, kartu di tangan kamu otomatis bertambah 2\n");
+        //     for (int i = 0; i < 2; i++) {
+        //         draw();
+        //     }
+        // }
         // // Kartu sisa 1, (( BELUM MENGIMPLEMENTASIKAN TIMER ))
         else {
             this.currentPlayer.setHiji(true);
             System.out.println("Kamu berhasil mendeclare Hiji. sisa kartu ditanganmu adalah\n");
-            getLastCard().infoKartu();
+            getCurrentPlayer().printCard();
         }
     }
 
@@ -429,7 +555,62 @@ public class Game {
         return retval;
     }
 
-    public <T> void castObject(T card) {
-        T lastCard = (T)card;
+    public boolean hasMatchingCard() {
+        List<Card> list = getCurrentPlayerCardList();
+        boolean hasCard = false;
+        int i = 0;
+
+        while ((!hasCard)  && (i < list.size())){
+            boolean isNumSame = list.get(i).getAngkaKartu() == lastCard.getAngkaKartu();
+            boolean isColorSame = isStringSame(list.get(i).getWarnaKartu(), lastCard.getWarnaKartu());
+            boolean isSkillSame = isStringSame(list.get(i).getSkillKartu(), lastCard.getSkillKartu());
+
+            if (list.get(i) instanceof WildCard) {
+                // System.out.println("kena di 1");
+                hasCard = true;
+            }
+            else if (lastCard.getWarnaKartu().equals(cardColor)) {
+                if (isColorSame) {
+                    // System.out.println("kena di 2");
+                    hasCard = true;
+                }
+                else if ((isSkillSame) && (lastCard instanceof PowerCard)) {
+                    // System.out.println("kena di 3");
+                    hasCard = true;
+                }
+                else if (isNumSame) {
+                    // System.out.println("kena di 4");
+                    hasCard = true;
+                }
+            }
+            else if (!lastCard.getWarnaKartu().equals(cardColor)) {
+                if (isStringSame(list.get(i).getWarnaKartu(), cardColor)) {
+                    // System.out.println("kena di 5");
+                    hasCard = true;
+                }
+            }
+            i++;
+        }
+        return hasCard;
+    }
+
+    public void nextTurn() {
+        int totalPlayer = shuffledPlayerList.size();
+        int playerIdx = shuffledPlayerList.indexOf(currentPlayer);
+        int idx = playerIdx + 1;
+        if (idx > (totalPlayer - 1)) {
+            idx = idx - totalPlayer;
+        }
+        currentPlayer.setPlaying(false);
+
+        if (lastCard.getSkillKartu().equals("Block")) {
+            currentPlayer = nextPlayer;
+            // nextPlayer = currentPlayer;
+            currentPlayer.setPlaying(true);
+        }
+        else {
+            currentPlayer = shuffledPlayerList.get(idx);
+            currentPlayer.setPlaying(true);
+        }
     }
 }

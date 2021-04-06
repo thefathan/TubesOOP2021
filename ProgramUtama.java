@@ -38,6 +38,12 @@ public class ProgramUtama {
         String klikLanjut;
         Scanner scan = new Scanner(System.in); 
 
+        String start = "";
+        while (!start.equalsIgnoreCase("START")) {
+            System.out.println("Tuliskan START untuk memulai permainan");
+            start = scan.nextLine();
+        }
+
         // cuma ngeprint ascii art loading
         printAscii("Asset/loading-art.txt");
         printWithDelaysEveryChar("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", TimeUnit.MILLISECONDS, 10);
@@ -53,11 +59,15 @@ public class ProgramUtama {
         System.out.println("\n===============SELAMAT DATANG DI PERMAINAN HIJI!===============");
         
         
-        int jumlahPemain;
+        int jumlahPemain = 0;
         // block looping untuk menghasilkan nilai jumlahPemain
         while (true) {
             printWithDelays("Untuk memulai gamenya, silahkan masukkan pemain yang mau bermain (hanya boleh 2 - 6 orang):\n>> ", TimeUnit.MILLISECONDS, 0);
-            jumlahPemain = scan.nextInt();
+            try {
+                jumlahPemain = scan.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.print(e.getMessage()); //try to find out specific reason.
+            }
             if ((jumlahPemain < 2) || (jumlahPemain > 6)) {
                 printAscii("Asset/invalid-art.txt");
                 printWithDelays("", TimeUnit.MILLISECONDS, 350);

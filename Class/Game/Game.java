@@ -105,8 +105,8 @@ public class Game {
 
     // Draw a card
     public void draw() {
-        Card drawCard = cardrandom.shuffleCard(); 
-        System.out.print("Anda mendapatkan kartu: ");
+        Card drawCard = cardrandom.shuffleCard();
+        printText("Anda mendapatkan kartu: ");
         drawCard.infoKartu();
         System.out.println("");
 
@@ -171,11 +171,12 @@ public class Game {
                 }
                 Scanner sc = new Scanner(System.in);
 
-                System.out.println("Pilih salah satu warna: ");
-                System.out.println("1. Red");
-                System.out.println("2. Blue");
-                System.out.println("3. Green");
-                System.out.println("4. Yellow");
+                printText("Pilih salah satu warna: ");
+                printText("Pilih salah satu warna: ");
+                printText("1. Red");
+                printText("2. Blue");
+                printText("3. Green");
+                printText("4. Yellow");
 
                 System.out.print("Pilihan warna (tuliskan nomor urutannya): ");
                 int input = sc.nextInt();
@@ -218,7 +219,6 @@ public class Game {
                 if (totalPlus > 0) {
                     if (isStringSame(skill, "Draw +2")) {
                         totalPlus += 2;
-                        System.out.println("Total Plus: " + totalPlus);
 
                         System.out.print("Anda mengeluarkan kartu: ");
                         C.infoKartu();
@@ -234,7 +234,7 @@ public class Game {
                         setListPlayer(currentPlayer, shuffledPlayerList);
                     }
                     else {
-                        System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
+                        System.out.println("\nMaaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
                         System.out.print("Anda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya\n");
                         for (int i = 0; i < totalPlus; i++) {
                             draw();
@@ -263,7 +263,7 @@ public class Game {
                                 totalPlus += 2;
                             }
                             else {
-                                totalPlus = 2;
+                                totalPlus += 2;
                             }
                         }
                     }
@@ -334,10 +334,10 @@ public class Game {
             // Kondisi ketika kartu tidak sesuai peraturan
             // Warna/skill/angka tidak ada yang sama
             else {
-                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan, silahkan pilih kartu lain/draw card");
+                System.out.println("\nMaaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
                 if ((!isStringSame(skillLast, skill)) && (totalPlus > 0)) {
                     System.out.println("Anda tidak memiliki kartu " + lastCard.getSkillKartu());
-                    System.out.print("Anda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya\n");
+                    System.out.print("\nsAnda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya\n");
                     for (int i = 0; i < totalPlus; i++) {
                         draw();
                     }
@@ -383,7 +383,7 @@ public class Game {
             }
             // Kondisi ketika kartu tidak sesuai peraturan
             else {
-                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
+                System.out.println("\nMaaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
                 if ((!isStringSame(skillLast, skill)) && (totalPlus > 0)) {
                     System.out.println("Anda tidak memiliki kartu " + lastCard.getSkillKartu());
                     System.out.print("Anda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya\n");
@@ -458,8 +458,7 @@ public class Game {
                 setListPlayer(currentPlayer, shuffledPlayerList);
             }
             else {
-                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
-                // nextTurn();
+                printText("\nMaaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
             }
         }
         
@@ -479,7 +478,7 @@ public class Game {
                 setListPlayer(currentPlayer, shuffledPlayerList);
             }
             else {
-                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
+                printText("\nMaaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
             }
         }
 
@@ -499,8 +498,7 @@ public class Game {
                 setListPlayer(currentPlayer, shuffledPlayerList);
             }
             else {
-                System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
-                // nextTurn();
+                printText("\nMaaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
             }
         }
     }
@@ -514,7 +512,7 @@ public class Game {
         }
         else {
             this.currentPlayer.setHiji(true);
-            System.out.println("Kamu berhasil mendeclare Hiji. sisa kartu ditanganmu adalah\n");
+            printText("Kamu berhasil mendeclare Hiji. sisa kartu ditanganmu adalah\n");
             getCurrentPlayer().printCard();
         }
     }
@@ -522,7 +520,7 @@ public class Game {
     // Print player's card
     public void listCard() {
         System.out.print("Daftar kartu pemain ");
-        System.out.println(currentPlayer.getPlayerName() + ":");
+        printText(currentPlayer.getPlayerName() + ":");
         currentPlayer.printCard();
     }
 
@@ -659,5 +657,10 @@ public class Game {
         }
 
         System.out.println("Pemain selanjutnya adalah " + currentPlayer.getPlayerName());
+    }
+
+    public void printText(String s) {
+        GenericsPrinter<String> generics = new GenericsPrinter<String>(s);
+        generics.printSomething();
     }
 }

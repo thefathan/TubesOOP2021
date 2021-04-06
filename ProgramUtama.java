@@ -126,6 +126,12 @@ public class ProgramUtama {
         }
     }
 
+    // clear screen function
+    public static void clearScreen() {  
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+     }
+
     
 
 
@@ -150,6 +156,7 @@ public class ProgramUtama {
 
             if (!t.isAlive()) {
                 if (menu.equalsIgnoreCase("Discard")) {
+                    clearScreen();
                     System.out.println("Giliran: " + game.getCurrentPlayer().getPlayerName());
                     if (!game.hasMatchingCard()) {
                         System.out.println("Anda tidak memiliki kartu yang dapat dikeluarkan");
@@ -229,6 +236,7 @@ public class ProgramUtama {
                 }
 
                 else if (menu.equalsIgnoreCase("Draw")) {
+                    clearScreen();
                     if (drawCounter == 0) {
                         if (discardCounter == 0) {
                             game.draw();
@@ -244,6 +252,7 @@ public class ProgramUtama {
                 }
     
                 else if (menu.equalsIgnoreCase("Declare Hiji")) {
+                    clearScreen();
                     if (t.isAlive()) {
                         t.interrupt();
                     }
@@ -251,28 +260,34 @@ public class ProgramUtama {
                 }
     
                 else if (menu.equalsIgnoreCase("View Turn")) {
+                    clearScreen();
                     game.viewTurn();
                 }
     
                 else if (menu.equalsIgnoreCase("List Card")) {
+                    clearScreen();
                     game.listCard();
                 }
     
     
                 else if (menu.equalsIgnoreCase("List Player")) {
+                    clearScreen();
                     game.listPlayer();
                 }
     
     
                 else if (menu.equalsIgnoreCase("Help")) {
+                    clearScreen();
                     game.help();
                 }
     
                 else if (menu.equalsIgnoreCase("Credits")) {
+                    clearScreen();
                     printAscii("Asset/credits-art.txt");
                 }
     
                 else if (menu.equalsIgnoreCase("Next Turn")) {
+                    clearScreen();
                     if ((drawCounter == 1) || (discardCounter > 0)) {
                         System.out.println("Bersiap untuk pemain selanjutnya");
                         game.nextTurn();
@@ -285,11 +300,13 @@ public class ProgramUtama {
                 }
     
                 else if (menu.equalsIgnoreCase("Keluar")) {
+                    clearScreen();
                     System.out.println("Keluar program...\n");
                     break;
                 }
     
                 else {
+                    clearScreen();
                     printAscii("Asset/invalid-art.txt");
                 }
     
@@ -300,6 +317,7 @@ public class ProgramUtama {
             
             else {
                 if (menu.equalsIgnoreCase("Discard")) {
+                    clearScreen();
                     System.out.println("Giliran: " + game.getCurrentPlayer().getPlayerName());
                     if (!game.hasMatchingCard()) {
                         System.out.println("Anda tidak memiliki kartu yang dapat dikeluarkan");
@@ -380,6 +398,7 @@ public class ProgramUtama {
                 }
 
                 else if (menu.equalsIgnoreCase("Draw")) {
+                    clearScreen();
                     if (drawCounter == 0) {
                         if (discardCounter == 0) {
                             game.draw();
@@ -395,33 +414,40 @@ public class ProgramUtama {
                 }
     
                 else if (menu.equalsIgnoreCase("Declare Hiji")) {
+                    clearScreen();
                     t.interrupt();
                     game.declareHiji();
                 }
     
                 else if (menu.equalsIgnoreCase("View Turn")) {
+                    clearScreen();
                     game.viewTurn();
                 }
     
                 else if (menu.equalsIgnoreCase("List Card")) {
+                    clearScreen();
                     game.listCard();
                 }
     
     
                 else if (menu.equalsIgnoreCase("List Player")) {
+                    clearScreen();
                     game.listPlayer();
                 }
     
     
                 else if (menu.equalsIgnoreCase("Help")) {
+                    clearScreen();
                     game.help();
                 }
     
                 else if (menu.equalsIgnoreCase("Credits")) {
+                    clearScreen();
                     printAscii("Asset/credits-art.txt");
                 }
     
                 else if (menu.equalsIgnoreCase("Next Turn")) {
+                    clearScreen();
                     if ((drawCounter == 1) || (discardCounter > 0)) {
                         System.out.println("Bersiap untuk pemain selanjutnya");
                         game.nextTurn();
@@ -434,11 +460,13 @@ public class ProgramUtama {
                 }
     
                 else if (menu.equalsIgnoreCase("Keluar")) {
+                    clearScreen();
                     System.out.println("Keluar program...\n");
                     break;
                 }
     
                 else {
+                    clearScreen();
                     printAscii("Asset/invalid-art.txt");
                 }
             }

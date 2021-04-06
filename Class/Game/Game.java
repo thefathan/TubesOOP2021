@@ -36,7 +36,6 @@ public class Game {
             cardrandom.generatePlayerCard(player);
             playerList.add(player);
         }
-        // sc.close();
         System.out.println("");
     }
 
@@ -84,6 +83,10 @@ public class Game {
 
     public int getTotalPlus() {
         return totalPlus;
+    }
+
+    public void setTotalPlus(int total) {
+        this.totalPlus = total;
     }
 
     public boolean isStringSame(String s1, String s2) {
@@ -212,48 +215,72 @@ public class Game {
         else if (isStringSame(warnaLast, cardColor)) {
             // Warna kartu sama dengan warna kartu sebelumnya
             if (isWarnaSama) {
-                if (C instanceof PowerCard) {
-                    // Block
-                    if (isStringSame(skill, "Block")) {
-                        int newidx = idxPlayer + 2;
-                        // // Kartu sebelumnya Block berwarna sama 
-                        // if (isStringSame(skill, "Block")) {
-                        //     newidx = idxPlayer + 1;
-                        // }
-                        if ((newidx > (playerList.size() - 1))) {
-                            newidx = idxPlayer - playerList.size();
-                        }
-                        System.out.println("Indeks setelah block " + newidx);
-                        nextPlayer = shuffledPlayerList.get(newidx);
+                if (totalPlus > 0) {
+                    if (isStringSame(skill, "Draw +2")) {
+                        totalPlus += 2;
+                        System.out.println("Total Plus: " + totalPlus);
+
+                        System.out.print("Anda mengeluarkan kartu: ");
+                        C.infoKartu();
+                        lastCard = C;
+                        cardColor = C.getWarnaKartu();
+
+                        Player.PlayerCard pCard = currentPlayer.getHandCard();
+                        pCard.removeCard(C);
+                        currentPlayer.setSumCard(pCard);
+                        currentPlayer.setPlayerCard(pCard);
+
+                        setListPlayer(currentPlayer, playerList);
+                        setListPlayer(currentPlayer, shuffledPlayerList);
                     }
-                    // Reverse
-                    else if (isStringSame(skill, "Reverse")) {
-                        Collections.reverse(shuffledPlayerList);
-                    }
-                    // Draw +2
                     else {
-                        // Kartu sebelumnya Draw +2 berwarna sama
-                        if(isStringSame(skillLast, "Draw +2")) {
-                            totalPlus += 2;
+                        System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan");
+                        System.out.print("Anda mendapatkan " + totalPlus + " kartu dari akumulasi plus sebelumnya\n");
+                        for (int i = 0; i < totalPlus; i++) {
+                            draw();
                         }
-                        else {
-                            totalPlus = 2;
-                        }
+                        totalPlus = 0;
                     }
                 }
-                // Kondisi ini juga berlaku untuk kartu dengan angka yang sama
-                System.out.print("Anda mengeluarkan kartu: ");
-                C.infoKartu();
-                lastCard = C;
-                cardColor = C.getWarnaKartu();
+                else {
+                    if (C instanceof PowerCard) {
+                        // Block
+                        if (isStringSame(skill, "Block")) {
+                            int newidx = idxPlayer + 2;
+                            if ((newidx > (playerList.size() - 1))) {
+                                newidx = newidx - playerList.size();
+                            }
+                            nextPlayer = shuffledPlayerList.get(newidx);
+                        }
+                        // Reverse
+                        else if (isStringSame(skill, "Reverse")) {
+                            Collections.reverse(shuffledPlayerList);
+                        }
+                        // Draw +2
+                        else {
+                            // Kartu sebelumnya Draw +2 berwarna sama
+                            if(isStringSame(skillLast, "Draw +2")) {
+                                totalPlus += 2;
+                            }
+                            else {
+                                totalPlus = 2;
+                            }
+                        }
+                    }
+                    // Kondisi ini juga berlaku untuk kartu dengan angka yang sama
+                    System.out.print("Anda mengeluarkan kartu: ");
+                    C.infoKartu();
+                    lastCard = C;
+                    cardColor = C.getWarnaKartu();
 
-                Player.PlayerCard pCard = currentPlayer.getHandCard();
-                pCard.removeCard(C);
-                currentPlayer.setSumCard(pCard);
-                currentPlayer.setPlayerCard(pCard);
+                    Player.PlayerCard pCard = currentPlayer.getHandCard();
+                    pCard.removeCard(C);
+                    currentPlayer.setSumCard(pCard);
+                    currentPlayer.setPlayerCard(pCard);
 
-                setListPlayer(currentPlayer, playerList);
-                setListPlayer(currentPlayer, shuffledPlayerList);
+                    setListPlayer(currentPlayer, playerList);
+                    setListPlayer(currentPlayer, shuffledPlayerList);
+                }
             }
 
             // Skill kartu sama dengan skill kartu sebelumnya
@@ -261,9 +288,9 @@ public class Game {
                 // Block
                 if (isStringSame(skill, "Block")) {
                     // Kartu sebelumnya Block dengan warna berbeda
-                    int newidx = idxPlayer + 1;
+                    int newidx = idxPlayer + 2;
                     if (newidx > (playerList.size() - 1)) {
-                        newidx = idxPlayer - playerList.size();
+                        newidx = newidx - playerList.size();
                     }
                     nextPlayer = shuffledPlayerList.get(newidx);
                 }
@@ -290,7 +317,7 @@ public class Game {
                 setListPlayer(currentPlayer, shuffledPlayerList);
             }
 
-            else if (isAngkaSama) {
+            else if ((isAngkaSama) && (C instanceof NumberCard))  {
                 System.out.print("Anda mengeluarkan kartu: ");
                 C.infoKartu();
                 lastCard = C;
@@ -315,7 +342,6 @@ public class Game {
                         draw();
                     }
                     totalPlus = 0;
-                    // nextTurn();
                 }
             }
         }
@@ -323,15 +349,14 @@ public class Game {
         // Kondisi ketika warna kartu sudah diganti
         else if (!isStringSame(warnaLast, cardColor)) {
             // Warna kartu sama dengan pilihan warna baru dan kartu sebelumnya bukan Draw +4
-            if ((isStringSame(warna, cardColor)) && (!isStringSame(skillLast, "Draw +4")))  {
+            if ((isStringSame(warna, cardColor)) && (totalPlus == 0))  {
                 if (C instanceof PowerCard) {
                     // Block
                     if (isStringSame(skill, "Block")) {
                         int newidx = idxPlayer + 2;
                         if (newidx > (playerList.size() - 1)) {
-                            newidx = idxPlayer - playerList.size();
+                            newidx = newidx - playerList.size();
                         }
-                        System.out.println("Indeks setelah block: " + newidx);
                         nextPlayer = shuffledPlayerList.get(newidx);
                     }
                     // Reverse
@@ -455,7 +480,6 @@ public class Game {
             }
             else {
                 System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan!");
-                // nextTurn();
             }
         }
 
@@ -479,11 +503,6 @@ public class Game {
                 // nextTurn();
             }
         }
-
-        // else {
-        //     System.out.println("Maaf, kartu ini tidak dapat dikeluarkan karena tidak sesuai dengan peraturan, silahkan pilih kartu lain/draw card");
-        //     // nextTurn();
-        // }
     }
 
     public void declareHiji() {
@@ -493,13 +512,6 @@ public class Game {
                 draw();
             }
         }
-        // else if ((timer >= 3) && (currentPlayer.getHandCard().lengthPC() == 1)) {
-        //     System.out.println("Meski kamu hanya memiliki 1 kartu, tetapi kamu mendeclare Hiji lebih dari 3 detik, kartu di tangan kamu otomatis bertambah 2\n");
-        //     for (int i = 0; i < 2; i++) {
-        //         draw();
-        //     }
-        // }
-        // // Kartu sisa 1, (( BELUM MENGIMPLEMENTASIKAN TIMER ))
         else {
             this.currentPlayer.setHiji(true);
             System.out.println("Kamu berhasil mendeclare Hiji. sisa kartu ditanganmu adalah\n");
@@ -565,7 +577,6 @@ public class Game {
             while((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
             }
-            // bufferedReader.close();
         }
         catch(IOException ex) {
             System.out.println("Gabisa buka file '" + "Asset/help-asset.txt" + "'");
@@ -596,20 +607,16 @@ public class Game {
             boolean isSkillSame = isStringSame(list.get(i).getSkillKartu(), lastCard.getSkillKartu());
 
             if (list.get(i) instanceof WildCard) {
-                // System.out.println("kena di 1");
                 hasCard = true;
             }
             else if (lastCard.getWarnaKartu().equals(cardColor)) {
                 if (isColorSame) {
-                    // System.out.println("kena di 2");
                     hasCard = true;
                 }
                 else if ((isSkillSame) && (lastCard instanceof PowerCard)) {
-                    // System.out.println("kena di 3");
                     hasCard = true;
                 }
-                else if (isNumSame) {
-                    // System.out.println("kena di 4");
+                else if ((isNumSame) && (lastCard instanceof NumberCard)) {
                     hasCard = true;
                 }
             }
@@ -624,7 +631,6 @@ public class Game {
                         hasCard = true;
                     }
                     else if (isStringSame(list.get(i).getWarnaKartu(), cardColor)) {
-                        // System.out.println("kena di 5");
                         hasCard = true;
                     }
                 }
@@ -645,12 +651,13 @@ public class Game {
 
         if (lastCard.getSkillKartu().equals("Block")) {
             currentPlayer = nextPlayer;
-            // nextPlayer = currentPlayer;
             currentPlayer.setPlaying(true);
         }
         else {
             currentPlayer = shuffledPlayerList.get(idx);
             currentPlayer.setPlaying(true);
         }
+
+        System.out.println("Pemain selanjutnya adalah " + currentPlayer.getPlayerName());
     }
 }

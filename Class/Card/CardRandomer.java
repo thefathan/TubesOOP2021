@@ -82,8 +82,6 @@ public class CardRandomer {
     }
 
     public void shufflingCard() {
-        // int i = 0;
-        // int r = i + (int) (Math.random() * (list.size() - i));
         Collections.shuffle(list);
         shuffled.addAll(list);
     }

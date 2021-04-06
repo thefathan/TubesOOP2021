@@ -20,16 +20,14 @@ public class ProgramUtama {
         public void run() {
             try {
                 Thread.sleep(3000);
-                // System.out.println("\nKamu belum declare Hiji dalam 3 detik, kartu di tangan kamu otomatis bertambah 2\n");
-                // if (!hiji) {
                 System.out.println("Kamu belum declare Hiji dalam 3 detik, kartu di tangan kamu otomatis bertambah 2\n");
                 for (int i = 0; i < 2; i++) {
                     game.draw();
                 }
-                // }
+                System.out.println("Tekan Enter untuk melanjutkan");
             }
             catch (InterruptedException e) {
-                System.out.println("\nKamu mendeclare hiji di bawah 3 detik");
+                System.out.println("Kamu mendeclare hiji di bawah 3 detik");
             }
         }
     }
@@ -134,7 +132,6 @@ public class ProgramUtama {
 
 
     public static void core(Game game) throws Exception {
-        int gameCounter = 0;
         int discardCounter = 0;
         int drawCounter = 0;
         boolean haveWinner = false;
@@ -144,7 +141,7 @@ public class ProgramUtama {
         while (true) {
             Scanner scanmenu = new Scanner(System.in);
 
-            printWithDelays("\nTekan enter untuk lanjut.....", TimeUnit.MILLISECONDS, 300);
+            printWithDelays("\nTekan enter untuk lanjut.....", TimeUnit.MILLISECONDS, 200);
             String klikLanjut = scanmenu.nextLine();
             printAscii("Asset/menu-art.txt");
             System.out.print("\nEnter Menu : ");
@@ -153,20 +150,20 @@ public class ProgramUtama {
 
             if (!t.isAlive()) {
                 if (menu.equalsIgnoreCase("Discard")) {
+                    System.out.println("Giliran: " + game.getCurrentPlayer().getPlayerName());
                     if (!game.hasMatchingCard()) {
                         System.out.println("Anda tidak memiliki kartu yang dapat dikeluarkan");
-                        if (game.getTotalPlus() > 0) {
+                        if ((game.getTotalPlus() > 0) && (discardCounter == 0)) {
                             for (int i = 0; i < game.getTotalPlus(); i++) {
                                 game.draw();
                             }
+                            game.setTotalPlus(0);
                         }
                     }
                     else {
-                        System.out.println(game.hasMultipleCard());
                         int sum = game.getCurrentPlayer().getPlayerSumCard();
     
                         if ((game.hasMultipleCard()) && (discardCounter >= 1)) {
-                            System.out.println("Kondisi 1\n");
                             Scanner scanAngka = new Scanner(System.in);
     
                             System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
@@ -192,10 +189,8 @@ public class ProgramUtama {
                             if (game.getCurrentPlayerCardList().size() == sum-1) {
                                 discardCounter++;
                             }
-                            gameCounter++;
                         }
                         else if (discardCounter == 0) {
-                            System.out.println("Kondisi 2\n");
                             Scanner scanAngka = new Scanner(System.in);
     
                             System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
@@ -221,15 +216,11 @@ public class ProgramUtama {
                             if (game.getCurrentPlayerCardList().size() == sum-1) {
                                 discardCounter++;
                             }
-                            gameCounter++;
                         }
                         else {
-                            System.out.println("Kondisi 3\n");
                             System.out.println("Maaf, anda tidak memiliki kartu yang dapat dikeluarkan");
-                            // game.nextTurn();
-                            
                         }
-                        System.out.println("Discard Counter " + discardCounter + "\n");
+
                         if (game.getCurrentPlayerCardList().size() == 0) {
                             winner = game.getCurrentPlayer();
                             haveWinner = true;
@@ -239,9 +230,13 @@ public class ProgramUtama {
 
                 else if (menu.equalsIgnoreCase("Draw")) {
                     if (drawCounter == 0) {
-                        game.draw();
-                        drawCounter++;
-                        gameCounter++;
+                        if (discardCounter == 0) {
+                            game.draw();
+                            drawCounter++;
+                        }
+                        else {
+                            System.out.println("Anda tidak dapat mengambil kartu karena telah melakukan discard");
+                        }
                     }
                     else {
                         System.out.println("Maaf, anda sudah melakukan draw!");
@@ -278,15 +273,15 @@ public class ProgramUtama {
                 }
     
                 else if (menu.equalsIgnoreCase("Next Turn")) {
-                    System.out.println("Pemain selanjutnya akan bermain dalam 5 detik");
-                    // if (timer >= 3) && (!game.getCurrentPlayer().isHiji()) {
-                    //     for (int i = 0; i < 2; i++) {
-                    //         game.draw();
-                    //     }
-                    // }
-                    game.nextTurn();
-                    drawCounter = 0;
-                    discardCounter = 0;
+                    if ((drawCounter == 1) || (discardCounter > 0)) {
+                        System.out.println("Bersiap untuk pemain selanjutnya");
+                        game.nextTurn();
+                        drawCounter = 0;
+                        discardCounter = 0;
+                    }
+                    else {
+                        System.out.println("Anda belum melakukan aksi apa pun");
+                    }
                 }
     
                 else if (menu.equalsIgnoreCase("Keluar")) {
@@ -298,27 +293,27 @@ public class ProgramUtama {
                     printAscii("Asset/invalid-art.txt");
                 }
     
-                if (game.getCurrentPlayerCardList().size() == 1) {
+                if ((game.getCurrentPlayerCardList().size() == 1) && (!game.getCurrentPlayer().isHiji())) {
                     t.start();
                 }
             }
             
             else {
                 if (menu.equalsIgnoreCase("Discard")) {
+                    System.out.println("Giliran: " + game.getCurrentPlayer().getPlayerName());
                     if (!game.hasMatchingCard()) {
                         System.out.println("Anda tidak memiliki kartu yang dapat dikeluarkan");
                         if (game.getTotalPlus() > 0) {
                             for (int i = 0; i < game.getTotalPlus(); i++) {
                                 game.draw();
                             }
+                            game.setTotalPlus(0);
                         }
                     }
                     else {
-                        System.out.println(game.hasMultipleCard());
                         int sum = game.getCurrentPlayer().getPlayerSumCard();
     
                         if ((game.hasMultipleCard()) && (discardCounter >= 1)) {
-                            System.out.println("Kondisi 1\n");
                             Scanner scanAngka = new Scanner(System.in);
     
                             System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
@@ -344,10 +339,8 @@ public class ProgramUtama {
                             if (game.getCurrentPlayerCardList().size() == sum-1) {
                                 discardCounter++;
                             }
-                            gameCounter++;
                         }
                         else if (discardCounter == 0) {
-                            System.out.println("Kondisi 2\n");
                             Scanner scanAngka = new Scanner(System.in);
     
                             System.out.println("Warna yang saat ini dimainkan adalah " +game.getWarnaKartuYangDimainkan()+ " (Jika warna kartu bertuliskan NULL, maka kartu sebelumnya bukan kartu angka)");
@@ -373,15 +366,12 @@ public class ProgramUtama {
                             if (game.getCurrentPlayerCardList().size() == sum-1) {
                                 discardCounter++;
                             }
-                            gameCounter++;
                         }
                         else {
-                            System.out.println("Kondisi 3\n");
                             System.out.println("Maaf, anda tidak memiliki kartu yang dapat dikeluarkan");
                             // game.nextTurn();
                             
                         }
-                        System.out.println("Discard Counter " + discardCounter + "\n");
                         if (game.getCurrentPlayerCardList().size() == 0) {
                             winner = game.getCurrentPlayer();
                             haveWinner = true;
@@ -391,9 +381,13 @@ public class ProgramUtama {
 
                 else if (menu.equalsIgnoreCase("Draw")) {
                     if (drawCounter == 0) {
-                        game.draw();
-                        drawCounter++;
-                        gameCounter++;
+                        if (discardCounter == 0) {
+                            game.draw();
+                            drawCounter++;
+                        }
+                        else {
+                            System.out.println("Anda tidak dapat mengambil kartu karena telah melakukan discard");
+                        }
                     }
                     else {
                         System.out.println("Maaf, anda sudah melakukan draw!");
@@ -428,15 +422,15 @@ public class ProgramUtama {
                 }
     
                 else if (menu.equalsIgnoreCase("Next Turn")) {
-                    System.out.println("Pemain selanjutnya akan bermain dalam 5 detik");
-                    // if (timer >= 3) && (!game.getCurrentPlayer().isHiji()) {
-                    //     for (int i = 0; i < 2; i++) {
-                    //         game.draw();
-                    //     }
-                    // }
-                    game.nextTurn();
-                    drawCounter = 0;
-                    discardCounter = 0;
+                    if ((drawCounter == 1) || (discardCounter > 0)) {
+                        System.out.println("Bersiap untuk pemain selanjutnya");
+                        game.nextTurn();
+                        drawCounter = 0;
+                        discardCounter = 0;
+                    }
+                    else {
+                        System.out.println("Anda belum melakukan aksi apa pun");
+                    }
                 }
     
                 else if (menu.equalsIgnoreCase("Keluar")) {
